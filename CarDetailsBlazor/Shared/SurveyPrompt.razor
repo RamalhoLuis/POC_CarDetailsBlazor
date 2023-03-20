@@ -1,0 +1,20 @@
+﻿<div class="alert alert-secondary mt-4">
+    <span class="oi oi-pencil me-2" aria-hidden="true"></span>
+    <strong>@Title</strong>
+    <br />
+    <ul>
+        <li class="text-nowrap">
+            uma <a target="_blank" class="font-weight-bold link-dark" href="/car">tabela</a>, que apresenta 15 registos de cada vez;
+        </li>
+        <li>cada página de 15 registos contêm informação particular sobre cada modelo de carro;</li>
+        <li>tem dois botões para prosseguir para a página seguinte ou retroceder para a anterior;</li>
+        <li>a última fila da tabela é composta por dois campos que retornam os valores respectivos ao consumo mais baixo em cidade e em auto estrada , mostrando o fabricante o modelo e o consumo (Miles/Galon) mais baixo;</li>
+        <li>e outros dois que retornam informaçao geral da tabela, como o número total de modelos diferenciados de carros e o mesmo número total de fabricantes.</li>
+    </ul>
+</div>
+
+@code {
+    // Demonstrates how a parent component can supply parameters
+    [Parameter]
+    public string? Title { get; set; }
+}
