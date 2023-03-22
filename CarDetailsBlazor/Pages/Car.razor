@@ -63,7 +63,6 @@ else
     private List<Car> cars;
     private List<Manufacturer> manufacturers;
     private List<JointInfo> jointCarInfo;
-
     private List<JointInfo> JointInfoVisible { get; set; }
     private int PageNumber { get; set; }
     private bool IsFirstPage => PageNumber == 1;
@@ -131,16 +130,8 @@ else
         var query =
                 File.ReadAllLines(path)
                 .Where(l => l.Length > 1)
-                .Select(l =>
-                {
-                    var columns = l.Split(',');
-                    return new Manufacturer
-                        {
-                            Name = columns[0],
-                            Headquarters = columns[1],
-                            Year = int.Parse(columns[2])
-                        };
-                });
+                .ToManufacturer();
+
         return query.ToList();
     }
 

@@ -12,4 +12,30 @@ namespace CarDetailsBlazor.Pages
         public string Headquarters { get; set; }
         public int Year { get; set; }
     }
+
+
+    public static class ManuExtensions
+    {
+        public static IEnumerable<Manufacturer> ToManufacturer(this IEnumerable<string> source)
+        {
+            foreach (var line in source)
+            {
+                var columns = line.Split(',');
+
+
+                yield return new Manufacturer
+                {
+                    Name = columns[0],
+                    Headquarters = columns[1],
+                    Year = int.Parse(columns[2])
+
+                };
+
+            }
+
+
+        }
+    }
+
+
 }
