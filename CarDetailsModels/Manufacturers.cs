@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarDetailsBlazor.Pages
+namespace CarDetailsModels
 {
     public class Manufacturer
     {
@@ -12,8 +12,6 @@ namespace CarDetailsBlazor.Pages
         public string Headquarters { get; set; }
         public int Year { get; set; }
     }
-
-
     public static class ManuExtensions
     {
         public static IEnumerable<Manufacturer> ToManufacturer(this IEnumerable<string> source)
@@ -30,12 +28,7 @@ namespace CarDetailsBlazor.Pages
                     Year = int.Parse(columns[2])
 
                 };
-
             }
-
-
         }
     }
-
-
 }

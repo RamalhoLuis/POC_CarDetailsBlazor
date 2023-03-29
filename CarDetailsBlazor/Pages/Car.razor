@@ -1,9 +1,13 @@
 ﻿@page "/car"
 @using CarDetailsBlazor.Pages;
+@using CarDetailsModels;
+@using System.Net.Http.Json;
+@using System.Net.Http;
+@inject HttpClient httpClient;
 <h3>Cars!</h3>
 
 
-@if (cars == null)
+@if (jointCarInfo == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -45,8 +49,8 @@ else
             <tr class=" g-0 text-center">
                 <td class="table-success"> Lowest City Fuel Consumption: @JointInfoVisible.OrderByDescending(item => item.City).FirstOrDefault()?.Manufacturer,  @JointInfoVisible.OrderByDescending(item => item.City).FirstOrDefault()?.Name || MPG:@JointInfoVisible.OrderByDescending(item => item.City).FirstOrDefault()?.City</td>
                 <td class="table-success"> Lowest Highway Fuel Consumption: @JointInfoVisible.OrderByDescending(item => item.City).FirstOrDefault()?.Manufacturer,  @JointInfoVisible.OrderByDescending(item => item.Highway).FirstOrDefault()?.Name || MPG:@JointInfoVisible.OrderByDescending(item => item.Highway).FirstOrDefault()?.Highway</td>
-                <td class="table-info"> Number of Cars Models: @cars.Select(c => c.Name).Distinct().Count()</td>
-                <td class="table-info"> Number Of Manufacturers: @cars.Select(c => c.Manufacturer).Distinct().Count()</td>
+                <td class="table-info"> Number of Cars Models: @jointCarInfo.Select(c => c.Name).Distinct().Count()</td>
+                <td class="table-info"> Number Of Manufacturers: @jointCarInfo.Select(c => c.Manufacturer).Distinct().Count()</td>
             </tr>
 
         </tbody>
@@ -60,8 +64,7 @@ else
 }
 
 @code {
-    private List<Car> cars;
-    private List<Manufacturer> manufacturers;
+
     private List<JointInfo> jointCarInfo;
     private List<JointInfo> JointInfoVisible { get; set; }
     private int PageNumber { get; set; }
@@ -71,29 +74,25 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        cars = GetCarsFromFile("Pages\\fuel.csv");
-        manufacturers = GetManufacturersFromFile("Pages\\manufacturers.csv");
 
-        jointCarInfo = (from car in cars
-                        join manufacturer in manufacturers
-                        on car.Manufacturer equals manufacturer.Name
-                        select new JointInfo
-                            {
-                                Name = car.Name,
-                                Headquarters = manufacturer.Headquarters,
-                                Year = car.Year,
-                                Manufacturer = car.Manufacturer,
-                                Displacement = car.Displacement,
-                                Cylinders = car.Cylinders,
-                                City = car.City,
-                                Highway = car.Highway,
-                                Combined = car.Combined
-
-                            }).OrderBy(m => m.Manufacturer).ThenBy(c => c.Name).ThenByDescending(c => c.Combined).ToList();
-
+        jointCarInfo = await GetJointInfo();
 
         LoadData();
+    }
 
+
+    private async Task<List<JointInfo>> GetJointInfo()
+    {
+        var response = await httpClient.GetAsync("https://localhost:7126/api/jointinfo");
+        if (response.IsSuccessStatusCode)
+        {            
+            return await response.Content.ReadFromJsonAsync<List<JointInfo>>(); 
+
+        }
+        else
+        {
+            throw new Exception($"Failed to get joint car info: {response.ReasonPhrase}");
+        }
     }
 
 
@@ -114,26 +113,6 @@ else
         LoadData();
     }
 
-    private static List<Car> GetCarsFromFile(string path)
-    {
-
-        var query = File.ReadAllLines(path)
-                .Skip(1)
-                .Where(l => l.Length > 1)
-                .ToCar();
-
-        return query.ToList();
-    }
-
-    private static List<Manufacturer> GetManufacturersFromFile(string path)
-    {
-        var query =
-                File.ReadAllLines(path)
-                .Where(l => l.Length > 1)
-                .ToManufacturer();
-
-        return query.ToList();
-    }
 
 
 

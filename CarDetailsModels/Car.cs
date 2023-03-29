@@ -1,6 +1,6 @@
-﻿namespace CarDetailsBlazor.Pages
+﻿namespace CarDetailsModels
 {
-    public partial class Car
+    public class Car
     {
         public int Year { get; set; }
         public string Manufacturer { get; set; }
@@ -21,7 +21,6 @@
             {
                 var columns = line.Split(',');
 
-
                 yield return new Car
                 {
                     Year = int.Parse(columns[0]),
@@ -34,12 +33,7 @@
                     Combined = int.Parse(columns[7])
 
                 };
-
             }
-
-
         }
-
     }
 }
-
