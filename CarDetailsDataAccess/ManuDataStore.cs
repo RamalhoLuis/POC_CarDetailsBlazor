@@ -19,6 +19,7 @@ namespace CarDetailsDataAccess
 
             var query =
                     File.ReadAllLines(path)
+                    .Skip(1)
                     .Where(l => l.Length > 1)
                     .ToManufacturer();
 

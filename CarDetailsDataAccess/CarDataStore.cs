@@ -6,7 +6,9 @@ namespace CarDetailsDataAccess
     {
         public List<Car> cars;
         public static string carsFilePath;
-        
+        private const string header = "Year,Manufacturer,Name,Displacement,Cylinders,City,Highway,Combined";
+
+
 
         public CarDataStore(string? path = null)
         {
@@ -24,6 +26,13 @@ namespace CarDetailsDataAccess
                     .ToCar();
 
             return query.ToList();
+        }
+
+        public void AddCar(Car car)
+        {
+            cars.Add(car);
+            File.WriteAllLines(carsFilePath, new[] { header }
+        .Concat(cars.Select(c => $"{c.Year},{c.Manufacturer},{c.Name},{c.Displacement},{c.Cylinders},{c.City},{c.Highway},{c.Combined}")));
         }
     }
 }

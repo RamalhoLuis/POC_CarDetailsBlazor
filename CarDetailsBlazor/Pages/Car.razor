@@ -61,6 +61,9 @@ else
     <button @onclick="PreviousPage" disabled="@IsFirstPage" class="btn btn-success">Previous</button>
     <button @onclick="NextPage" disabled="@IsLastPage" class="btn btn-success">Next</button>
 
+
+
+
 }
 
 @code {
@@ -72,6 +75,7 @@ else
     private bool IsLastPage => JointInfoVisible.Count < 15;
 
 
+
     protected override async Task OnInitializedAsync()
     {
 
@@ -79,6 +83,7 @@ else
 
         LoadData();
     }
+
 
 
     private async Task<List<JointInfo>> GetJointInfo()
