@@ -1,5 +1,6 @@
 ﻿using CarDetailsBlazor.Pages;
 using CarDetailsDataAccess;
+using CarDetailsDataAccess.Data;
 using CarDetailsModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +11,22 @@ namespace CarDetailsAPI.Controller
     [Route("api/jointinfo")]
     public class JointInfoController : ControllerBase
     {
+        private IDataContext _dataContext;
+        public JointInfoController(IDataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<JointInfo>> GetJointInfo()
         {
-            CarDataStore carData = new CarDataStore(@"..\CarDetailsDataAccess\fuel.csv");
-            ManuDataStore manuData = new ManuDataStore(@"..\CarDetailsDataAccess\manufacturers.csv");
-            List<JointInfo> jointCarInfo = (List<JointInfo>)(from car in carData.cars
-                                                             join manufacturer in manuData.manufacturers
+
+            List<JointInfo> jointCarInfo = (List<JointInfo>)(from car in _dataContext.CarsDb
+                                                             join manufacturer in _dataContext.ManufacturersDb
                                                              on car.Manufacturer equals manufacturer.Name
                                                              select new JointInfo
                                                              {
+                                                                 Id = car.Id,
                                                                  Name = car.Name,
                                                                  Headquarters = manufacturer.Headquarters,
                                                                  Year = car.Year,

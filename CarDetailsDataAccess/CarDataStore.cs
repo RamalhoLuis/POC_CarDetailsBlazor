@@ -1,4 +1,5 @@
 ﻿using CarDetailsModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDetailsDataAccess
 {
@@ -6,6 +7,7 @@ namespace CarDetailsDataAccess
     {
         public List<Car> cars;
         public static string carsFilePath;
+
         private const string header = "Year,Manufacturer,Name,Displacement,Cylinders,City,Highway,Combined";
 
 
@@ -15,6 +17,7 @@ namespace CarDetailsDataAccess
             carsFilePath = path;
             cars = GetCarsFromFile();            
         }
+
 
         private static List<Car> GetCarsFromFile(string? path = null)
         {

@@ -1,4 +1,5 @@
 ﻿using CarDetailsModels;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection.PortableExecutable;
 
 namespace CarDetailsDataAccess
@@ -7,6 +8,7 @@ namespace CarDetailsDataAccess
     {
         public List<Manufacturer> manufacturers;
         public static string manuFilePath;
+
         private const string header = "Name,Headquarters,Year";
 
         public ManuDataStore(string? path = null)
@@ -14,6 +16,7 @@ namespace CarDetailsDataAccess
             manuFilePath = path;
             manufacturers = GetManufacturersFromFile();
         }
+
 
         private static List<Manufacturer> GetManufacturersFromFile(string? path = null)
         {
