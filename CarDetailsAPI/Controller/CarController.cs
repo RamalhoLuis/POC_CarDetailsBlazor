@@ -33,5 +33,19 @@ namespace CarDetailsAPI.Controller
             return CreatedAtAction(nameof(GetCar), new { id = car.Id }, car);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCar(int id)
+        {
+            var carToDelete = _dataContext.CarsDb.FirstOrDefault(c => c.Id == id);
+            if (carToDelete == null)
+            {
+                return NotFound();
+            }
+
+            _dataContext.CarsDb.Remove(carToDelete);
+            _dataContext.SaveChanges();
+            return NoContent();
+        }
+
     }
 }

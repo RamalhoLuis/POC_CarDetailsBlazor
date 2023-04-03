@@ -33,5 +33,19 @@ namespace CarDetailsAPI.Controller
             _dataContext.SaveChanges();
             return CreatedAtAction(nameof(GetManufacturer), new { id = manufacturer.Id }, manufacturer);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteManufacturer(int id)
+        {
+            var manufacturerToDelete = _dataContext.ManufacturersDb.FirstOrDefault(c => c.Id == id);
+            if (manufacturerToDelete == null)
+            {
+                return NotFound();
+            }
+
+            _dataContext.ManufacturersDb.Remove(manufacturerToDelete);
+            _dataContext.SaveChanges();
+            return NoContent();
+        }
     }
 }
