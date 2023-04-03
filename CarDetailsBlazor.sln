@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarDetailsAPI", "CarDetails
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarDetailsDataAccess", "CarDetailsDataAccess\CarDetailsDataAccess.csproj", "{714733CF-C414-4032-A5C9-C832DFD03D28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarDetailsModels", "CarDetailsModels\CarDetailsModels.csproj", "{68C6D451-FB2E-4DE5-8FAE-3229E7FC5E6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarDetailsModels", "CarDetailsModels\CarDetailsModels.csproj", "{68C6D451-FB2E-4DE5-8FAE-3229E7FC5E6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

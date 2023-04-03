@@ -31,11 +31,11 @@ namespace CarDetailsDataAccess
             return query.ToList();
         }
 
-        public void AddCar(Car car)
-        {
-            cars.Add(car);
-            File.WriteAllLines(carsFilePath, new[] { header }
-        .Concat(cars.Select(c => $"{c.Year},{c.Manufacturer},{c.Name},{c.Displacement},{c.Cylinders},{c.City},{c.Highway},{c.Combined}")));
-        }
+        //public void AddCar(Car car)
+        //{
+        //    cars.Add(car);
+        //    File.WriteAllLines(carsFilePath, new[] { header }
+        //.Concat(cars.Select(c => $"{c.Year},{c.Manufacturer},{c.Name},{c.Displacement},{c.Cylinders},{c.City},{c.Highway},{c.Combined}")));
+        //}
     }
 }

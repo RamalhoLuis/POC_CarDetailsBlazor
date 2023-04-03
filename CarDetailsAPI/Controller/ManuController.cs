@@ -26,12 +26,12 @@ namespace CarDetailsAPI.Controller
         }
 
 
-        //[HttpPost]
-        //public ActionResult<IEnumerable<Manufacturer>> AddManufacturer(Manufacturer manufacturer)
-        //{
-        //    ManuDataStore manuData = new ManuDataStore(@"..\CarDetailsDataAccess\manufacturers.csv");
-        //    manuData.AddManufacturer(manufacturer);
-        //    return Ok(manuData.manufacturers);
-        //}
+        [HttpPost]
+        public ActionResult<Manufacturer> CreateManufacturer([FromBody] Manufacturer manufacturer)
+        {
+            _dataContext.ManufacturersDb.Add(manufacturer);
+            _dataContext.SaveChanges();
+            return CreatedAtAction(nameof(GetManufacturer), new { id = manufacturer.Id }, manufacturer);
+        }
     }
 }

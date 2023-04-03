@@ -25,13 +25,13 @@ namespace CarDetailsAPI.Controller
             return Ok(query);
         }
 
-        //[HttpPost]
-        //public ActionResult<IEnumerable<Car>> AddCar(Car car)
-        //{
-        //    CarDataStore carData = new CarDataStore(@"..\CarDetailsDataAccess\fuel.csv");
-        //    carData.AddCar(car);
-        //    return Ok(carData.cars);
-        //}
+        [HttpPost]
+        public ActionResult<Car> CreateCar([FromBody] Car car)
+        {
+            _dataContext.CarsDb.Add(car);
+            _dataContext.SaveChanges();
+            return CreatedAtAction(nameof(GetCar), new { id = car.Id }, car);
+        }
 
     }
 }

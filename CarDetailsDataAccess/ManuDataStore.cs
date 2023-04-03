@@ -30,11 +30,11 @@ namespace CarDetailsDataAccess
 
             return query.ToList();
         }
-        public void AddManufacturer(Manufacturer manufacturer)
-        {
-            manufacturers.Add(manufacturer);
-            File.WriteAllLines(manuFilePath, new[] { header }
-        .Concat(manufacturers.Select(c => $"{c.Name},{c.Headquarters},{c.Year}")));
-        }
+        //public void AddManufacturer(Manufacturer manufacturer)
+        //{
+        //    manufacturers.Add(manufacturer);
+        //    File.WriteAllLines(manuFilePath, new[] { header }
+        //.Concat(manufacturers.Select(c => $"{c.Name},{c.Headquarters},{c.Year}")));
+        //}
     }
 }
