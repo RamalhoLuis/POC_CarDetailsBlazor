@@ -21,12 +21,8 @@
         <label for="manufacturerYear">Manufacturer Year:</label>
         <input id="manufacturerYear" type="text" @bind="newManufacturer.Year" />
     </div>
-
-
-
 </div>
 <div>
-
     <div>
         <label for="carYear">Car Year:</label>
         <input id="carYear" type="text" @bind="newCar.Year" />
@@ -59,7 +55,7 @@
         <label for="carCombined">Car Combined Fuel Efficiency:</label>
         <input id="carCombined" type="text" @bind="newCar.Combined" />
     </div>
-    <button type="submit" @onclick="AddCarAndManufacturer" class="btn btn-success">Add New Car</button>  
+    <button type="submit" @onclick="AddCarAndManufacturer" class="btn btn-success">Add New Car</button>
 
 </div>
 <div>
@@ -76,16 +72,11 @@
     private Car newCar = new Car();
     private List<Manufacturer> manufacturers = new List<Manufacturer>();
     private Manufacturer newManufacturer = new Manufacturer();
-
     private HttpClient httpClient;
 
     protected override async Task OnInitializedAsync()
     {
-
-        // initialize HttpClient
         httpClient = new HttpClient();
-
-        // fetch existing manufacturers
         //cars = await httpClient.GetFromJsonAsync<List<Car>>("api/cars");
         //manufacturers = await httpClient.GetFromJsonAsync<List<Manufacturer>>("api/manufacturers");
     }
@@ -95,12 +86,8 @@
 
         await httpClient.PostAsJsonAsync<Manufacturer>("https://localhost:7126/api/manufacturers", newManufacturer);
         await httpClient.PostAsJsonAsync<Car>("https://localhost:7126/api/cars", newCar);
-
-
         newCar = new Car();
-
         newManufacturer = new Manufacturer();
-
         //manufacturers = await httpClient.GetFromJsonAsync<List<Manufacturer>>("https://localhost:7126/api/manufacturers");
     }
 
@@ -110,13 +97,12 @@
 
         if (response.IsSuccessStatusCode)
         {
-            // Remove the deleted car from the local list
             var carToDelete = cars.FirstOrDefault(c => c.Id == carId);
             if (carToDelete != null)
             {
                 cars.Remove(carToDelete);
             }
-        }   
+        }
 
     }
 
