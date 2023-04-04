@@ -21,7 +21,7 @@ namespace CarDetailsAPI.Controller
         {
             //ManuDataStore manuData = new ManuDataStore(@"..\CarDetailsDataAccess\manufacturers.csv");
             //return Ok(manuData.manufacturers);
-            var query = _dataContext.ManufacturersDb;
+            List<Manufacturer> query = _dataContext.ManufacturersDb.ToList();
             return Ok(query);
         }
 
@@ -31,7 +31,8 @@ namespace CarDetailsAPI.Controller
         {
             _dataContext.ManufacturersDb.Add(manufacturer);
             _dataContext.SaveChanges();
-            return CreatedAtAction(nameof(GetManufacturer), new { id = manufacturer.Id }, manufacturer);
+            return Ok();
+            //return CreatedAtAction(nameof(GetManufacturer), new { id = manufacturer.Id }, manufacturer);
         }
 
         [HttpDelete("{id}")]

@@ -30,7 +30,8 @@ namespace CarDetailsAPI.Controller
         {
             _dataContext.CarsDb.Add(car);
             _dataContext.SaveChanges();
-            return CreatedAtAction(nameof(GetCar), new { id = car.Id }, car);
+            return Ok();
+            //return CreatedAtAction(nameof(GetCar), new { id = car.Id }, car);
         }
 
         [HttpDelete("{id}")]
