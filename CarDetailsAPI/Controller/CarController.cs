@@ -28,10 +28,13 @@ namespace CarDetailsAPI.Controller
         [HttpPost]
         public ActionResult<Car> CreateCar([FromBody] Car car)
         {
+            if (_dataContext.CarsDb.Any(m => m.Year == car.Year && m.Manufacturer == car.Manufacturer && m.Name == car.Name && m.Displacement == car.Displacement && m.Cylinders == car.Cylinders && m.City == car.City && m.Highway == car.Highway && m.Combined == car.Combined))
+            {
+                return Ok();
+            }
             _dataContext.CarsDb.Add(car);
             _dataContext.SaveChanges();
             return Ok();
-            //return CreatedAtAction(nameof(GetCar), new { id = car.Id }, car);
         }
 
         [HttpDelete("{id}")]

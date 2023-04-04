@@ -13,9 +13,15 @@
 }
 else
 {
+    <button @onclick="FirstPage" class="btn btn-success">&lt;&lt;</button>
+    <button @onclick="PreviousPage" disabled="@IsFirstPage" class="btn btn-success">Previous</button>
+    <button @onclick="NextPage" disabled="@IsLastPage" class="btn btn-success">Next</button>
+    <button @onclick="LastPage" class="btn btn-success">>></button>
+
     <table class="table table-striped table-hover w-auto">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Manufacturer</th>
                 <th>Name</th>
                 <th>Cylinders</th>
@@ -30,8 +36,8 @@ else
         <tbody>
             @foreach (var jointInfo in JointInfoVisible)
             {
-
                 <tr>
+                    <td>@jointInfo.Id</td>
                     <td>@jointInfo.Manufacturer</td>
                     <td>@jointInfo.Name</td>
                     <td>@jointInfo.Cylinders</td>
@@ -40,10 +46,8 @@ else
                     <td>@jointInfo.Combined</td>
                     <td>@jointInfo.Headquarters</td>
                     <td>@jointInfo.Year</td>
-
                 </tr>
             }
-
         </tbody>
         <tbody>
             <tr class=" g-0 text-center">
@@ -58,12 +62,6 @@ else
     </table>
 
 
-    <button @onclick="PreviousPage" disabled="@IsFirstPage" class="btn btn-success">Previous</button>
-    <button @onclick="NextPage" disabled="@IsLastPage" class="btn btn-success">Next</button>
-
-
-
-
 }
 
 @code {
@@ -72,7 +70,7 @@ else
     private List<JointInfo> JointInfoVisible { get; set; }
     private int PageNumber { get; set; }
     private bool IsFirstPage => PageNumber == 1;
-    private bool IsLastPage => JointInfoVisible.Count < 15;
+    private bool IsLastPage => JointInfoVisible.Count < 12;
 
 
 
@@ -80,12 +78,9 @@ else
     {
 
         jointCarInfo = await GetJointInfo();
-        LoadData();
-        
+        LoadData();      
         
     }
-
-
 
     private async Task<List<JointInfo>> GetJointInfo()
     {
@@ -93,7 +88,6 @@ else
         if (response.IsSuccessStatusCode)
         {            
             return await response.Content.ReadFromJsonAsync<List<JointInfo>>(); 
-
         }
         else
         {
@@ -104,7 +98,7 @@ else
 
     private void LoadData()
     {
-        JointInfoVisible = jointCarInfo.Skip((PageNumber - 1) * 15).Take(15).ToList();
+        JointInfoVisible = jointCarInfo.Skip((PageNumber - 1) * 12).Take(12).ToList();
     }
 
     private void NextPage()
@@ -116,6 +110,19 @@ else
     private void PreviousPage()
     {
         PageNumber--;
+        LoadData();
+    }
+
+    private void FirstPage()
+    {
+        PageNumber = 1;
+        LoadData();
+    }
+
+    private void LastPage()
+    {
+        var totalCount = jointCarInfo.Count;
+        PageNumber = (int)Math.Ceiling((double)totalCount / 12);
         LoadData();
     }
 

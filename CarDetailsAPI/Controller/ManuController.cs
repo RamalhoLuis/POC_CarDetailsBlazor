@@ -29,10 +29,13 @@ namespace CarDetailsAPI.Controller
         [HttpPost]
         public ActionResult<Manufacturer> CreateManufacturer([FromBody] Manufacturer manufacturer)
         {
+            if (_dataContext.ManufacturersDb.Any(m => m.Name == manufacturer.Name && m.Headquarters == manufacturer.Headquarters && m.Year == manufacturer.Year))
+            {
+                return Ok();
+            }
             _dataContext.ManufacturersDb.Add(manufacturer);
             _dataContext.SaveChanges();
             return Ok();
-            //return CreatedAtAction(nameof(GetManufacturer), new { id = manufacturer.Id }, manufacturer);
         }
 
         [HttpDelete("{id}")]

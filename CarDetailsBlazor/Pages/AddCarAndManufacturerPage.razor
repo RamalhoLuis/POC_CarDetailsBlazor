@@ -5,62 +5,60 @@
 @using System.Net.Http;
 @using Microsoft.AspNetCore.Mvc;
 
-<h3>AddCarAndManufacturer</h3>
+<h3>Add New Car</h3>
 
-<div>
+<div class="container-fluid mb-3">
 
-    <div>
+    <div class="mb-2">
         <label for="manufacturerName">Manufacturer Name:</label>
-        <input id="manufacturerName" type="text" @bind="newManufacturer.Name" />
+        <input id="manufacturerName" type="text" @bind="newManufacturer.Name" placeholder="Insert value.." />
     </div>
-    <div>
+    <div class="mb-2">
         <label for="manufacturerHQ">Manufacturer Headquarters:</label>
-        <input id="manufacturerHQ" type="text" @bind="newManufacturer.Headquarters" />
+        <input id="manufacturerHQ" type="text" @bind="newManufacturer.Headquarters" placeholder="Insert value.." />
     </div>
-    <div>
+    <div class="mb-2">
         <label for="manufacturerYear">Manufacturer Year:</label>
-        <input id="manufacturerYear" type="text" @bind="newManufacturer.Year" />
+        <input id="manufacturerYear" type="text" @bind="newManufacturer.Year" placeholder="Insert value.." />
     </div>
-</div>
-<div>
-    <div>
+    <div class="mb-2">
         <label for="carYear">Car Year:</label>
-        <input id="carYear" type="text" @bind="newCar.Year" />
+        <input id="carYear" type="text" @bind="newCar.Year" placeholder="Insert value.." />
     </div>
-    <div>
+    <div class="mb-2">
         <label for="carManufacturer">Car Manufacturer:</label>
-        <input id="carManufacturer" type="text" @bind="newCar.Manufacturer" />
+        <input id="carManufacturer" type="text" @bind="newCar.Manufacturer" placeholder="Insert value.." />
     </div>
-    <div>
+    <div class="mb-2">
         <label for="carName">Car Name:</label>
-        <input id="carName" type="text" @bind="newCar.Name" />
+        <input id="carName" type="text" @bind="newCar.Name" placeholder="Insert value.." />
     </div>
-    <div>
+    <div class="mb-2">
         <label for="carDisplacement">Car Displacement:</label>
-        <input id="carDisplacement" type="number" step="0.1" @bind="newCar.Displacement" />
+        <input id="carDisplacement" type="number" step="0.1" @bind="newCar.Displacement" placeholder="Insert value.." />
     </div>
-    <div>
+    <div class="mb-2">
         <label for="carCylinders">Car Cylinders:</label>
-        <input id="carCylinders" type="number" @bind="newCar.Cylinders" />
+        <input id="carCylinders" type="number" @bind="newCar.Cylinders" placeholder="Insert value.." />
     </div>
-    <div>
+    <div class="mb-2">
         <label for="carCity">Car City Fuel Efficiency:</label>
-        <input id="carCity" type="text" @bind="newCar.City" />
+        <input id="carCity" type="text" @bind="newCar.City" placeholder="Insert value.." />
     </div>
-    <div>
+    <div class="mb-2">
         <label for="carHighway">Car Highway Fuel Efficiency:</label>
-        <input id="carHighway" type="text" @bind="newCar.Highway" />
+        <input id="carHighway" type="text" @bind="newCar.Highway" placeholder="Insert value.." />
     </div>
-    <div>
+    <div class="mb-2">
         <label for="carCombined">Car Combined Fuel Efficiency:</label>
-        <input id="carCombined" type="text" @bind="newCar.Combined" />
+        <input id="carCombined" type="text" @bind="newCar.Combined" placeholder="Insert value.." />
     </div>
     <button type="submit" @onclick="AddCarAndManufacturer" class="btn btn-success">Add New Car</button>
 
 </div>
+<h3>Delete Car Record</h3>
 <div>
-    <span>@newCar.Name</span>
-    <label for="deleteCar">Id:</label>
+    <label for="deleteCar">Insert Car Id to Delete:</label>
     <input id="carId" type="text" @bind="newCar.Id" />
     <button type="button" @onclick="() => DeleteCarRecord(newCar.Id)" class="btn btn-danger">Delete</button>
 </div>
@@ -77,8 +75,6 @@
     protected override async Task OnInitializedAsync()
     {
         httpClient = new HttpClient();
-        //cars = await httpClient.GetFromJsonAsync<List<Car>>("api/cars");
-        //manufacturers = await httpClient.GetFromJsonAsync<List<Manufacturer>>("api/manufacturers");
     }
 
     private async Task AddCarAndManufacturer()
@@ -88,7 +84,6 @@
         await httpClient.PostAsJsonAsync<Car>("https://localhost:7126/api/cars", newCar);
         newCar = new Car();
         newManufacturer = new Manufacturer();
-        //manufacturers = await httpClient.GetFromJsonAsync<List<Manufacturer>>("https://localhost:7126/api/manufacturers");
     }
 
     private async Task DeleteCarRecord(int carId)
