@@ -51,5 +51,16 @@ namespace CarDetailsAPI.Controller
             return NoContent();
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<Car> GetCarId(int id)
+        {
+            var carToSearch = _dataContext.CarsDb.FirstOrDefault(c => c.Id == id);
+            if (carToSearch == null)
+            {
+                return NotFound();
+            }
+            return Ok(carToSearch);
+        }
+
     }
 }

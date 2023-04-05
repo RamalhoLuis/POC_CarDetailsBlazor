@@ -4,6 +4,8 @@
 @using System.Net.Http.Json;
 @using System.Net.Http;
 @using Microsoft.AspNetCore.Mvc;
+@using System.Text.Json;
+
 
 <h3>Add New Car</h3>
 
@@ -56,21 +58,17 @@
     <button type="submit" @onclick="AddCarAndManufacturer" class="btn btn-success">Add New Car</button>
 
 </div>
-<h3>Delete Car Record</h3>
-<div>
-    <label for="deleteCar">Insert Car Id to Delete:</label>
-    <input id="carId" type="text" @bind="newCar.Id" />
-    <button type="button" @onclick="() => DeleteCarRecord(newCar.Id)" class="btn btn-danger">Delete</button>
-</div>
+<label class="alert alert-success" role="alert">@statusMessage</label>
+
 
 
 
 @code {
-    private List<Car> cars = new List<Car>();
     private Car newCar = new Car();
-    private List<Manufacturer> manufacturers = new List<Manufacturer>();
     private Manufacturer newManufacturer = new Manufacturer();
     private HttpClient httpClient;
+    private string statusMessage;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -81,24 +79,16 @@
     {
 
         await httpClient.PostAsJsonAsync<Manufacturer>("https://localhost:7126/api/manufacturers", newManufacturer);
-        await httpClient.PostAsJsonAsync<Car>("https://localhost:7126/api/cars", newCar);
+        var response = await httpClient.PostAsJsonAsync<Car>("https://localhost:7126/api/cars", newCar);
+        if (response.IsSuccessStatusCode)
+        {
+            statusMessage += " New Car added successfully!";
+        }
+        else
+        {
+            statusMessage += " Failed to add new Car.";
+        }
         newCar = new Car();
         newManufacturer = new Manufacturer();
     }
-
-    private async Task DeleteCarRecord(int carId)
-    {
-        var response = await httpClient.DeleteAsync($"https://localhost:7126/api/cars/{carId}");
-
-        if (response.IsSuccessStatusCode)
-        {
-            var carToDelete = cars.FirstOrDefault(c => c.Id == carId);
-            if (carToDelete != null)
-            {
-                cars.Remove(carToDelete);
-            }
-        }
-
-    }
-
 }
