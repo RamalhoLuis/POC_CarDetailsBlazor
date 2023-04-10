@@ -17,7 +17,7 @@ namespace CarDetailsAPI.Controller
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Car>> GetCar()
+        public ActionResult<IEnumerable<Car>> GetCars()
         {
             //CarDataStore carData = new CarDataStore(@"..\CarDetailsDataAccess\fuel.csv");
             //return Ok(carData.cars);

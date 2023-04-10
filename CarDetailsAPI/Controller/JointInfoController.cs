@@ -3,6 +3,7 @@ using CarDetailsDataAccess;
 using CarDetailsDataAccess.Data;
 using CarDetailsModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDetailsAPI.Controller
 {
@@ -18,26 +19,24 @@ namespace CarDetailsAPI.Controller
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<JointInfo>> GetJointInfo()
+        public ActionResult<IEnumerable<JointInfo>> GetJointInfo(int page = 1, int pageSize = 12)
         {
+            var query = _dataContext.CarsDb.Include(x => x.Manufacturers).Skip(pageSize*(page -1)).Take(pageSize).ToList();
+            List<JointInfo> jointCarInfo = (List<JointInfo>)(query.Select(car => new JointInfo
+            {
+                Id = car.Id,
+                Name = car.Name,
+                Headquarters = car.Manufacturers.Headquarters,
+                Year = car.Year,
+                Manufacturer = car.Manufacturer,
+                Displacement = car.Displacement,
+                Cylinders = car.Cylinders,
+                City = car.City,
+                Highway = car.Highway,
+                Combined = car.Combined
 
-            List<JointInfo> jointCarInfo = (List<JointInfo>)(from car in _dataContext.CarsDb
-                                                             join manufacturer in _dataContext.ManufacturersDb
-                                                             on car.Manufacturer equals manufacturer.Name
-                                                             select new JointInfo
-                                                             {
-                                                                 Id = car.Id,
-                                                                 Name = car.Name,
-                                                                 Headquarters = manufacturer.Headquarters,
-                                                                 Year = car.Year,
-                                                                 Manufacturer = car.Manufacturer,
-                                                                 Displacement = car.Displacement,
-                                                                 Cylinders = car.Cylinders,
-                                                                 City = car.City,
-                                                                 Highway = car.Highway,
-                                                                 Combined = car.Combined
+            })).OrderBy(m => m.Manufacturer).ThenBy(c => c.Name).ThenByDescending(c => c.Combined).ToList();      
 
-                                                             }).OrderBy(m => m.Manufacturer).ThenBy(c => c.Name).ThenByDescending(c => c.Combined).ToList();
 
             return Ok(jointCarInfo);
 

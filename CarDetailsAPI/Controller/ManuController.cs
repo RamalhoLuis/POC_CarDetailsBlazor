@@ -17,7 +17,7 @@ namespace CarDetailsAPI.Controller
             _dataContext = dataContext;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Manufacturer>> GetManufacturer()
+        public ActionResult<IEnumerable<Manufacturer>> GetManufacturers()
         {
             //ManuDataStore manuData = new ManuDataStore(@"..\CarDetailsDataAccess\manufacturers.csv");
             //return Ok(manuData.manufacturers);

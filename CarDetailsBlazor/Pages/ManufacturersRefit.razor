@@ -1,0 +1,49 @@
+﻿@page "/refitManufacturers"
+@using CarDetailsModels;
+@using CarDetailsBlazor.Interfaces;
+@using Refit;
+@inject IManufacturerWebServiceAPI ManufacturerWebServiceAPI;
+
+<h3>Manufacturers with Refit</h3>
+
+@if (manufacturers is not null && manufacturers.Any())
+{
+    <table class="table table-striped table-hover w-auto">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Headquarters</th>
+                <th>Year</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var manufacturer in manufacturers)
+            {
+                <tr>
+                    <td>@manufacturer.Id</td>
+                    <td>@manufacturer.Name</td>
+                    <td>@manufacturer.Headquarters</td>
+                    <td>@manufacturer.Year</td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    
+}
+
+@code {
+    public IEnumerable<Manufacturer> manufacturers { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        manufacturers = await ManufacturerWebServiceAPI.GetManufacturers();
+        //if (getService is not null)
+        //{
+
+    }
+
+}

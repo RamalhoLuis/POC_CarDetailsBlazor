@@ -11,6 +11,8 @@
         public int City { get; set; }
         public int Highway { get; set; }
         public int Combined { get; set; }
+        public int ManufacturerId { get; set; }
+        public Manufacturer Manufacturers { get; set; }  
 
     }
 

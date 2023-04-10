@@ -1,6 +1,8 @@
-
+using CarDetailsBlazor.Interfaces;
+using CarDetailsModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Refit;
 
 namespace CarDetailsBlazor
 {
@@ -15,6 +17,12 @@ namespace CarDetailsBlazor
             builder.Services.AddServerSideBlazor();
             builder.Services.AddHttpClient();
             builder.Services.AddMvc();
+            builder.Services.AddRefitClient<ICarWebServiceAPI>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
+            builder.Services.AddRefitClient<IManufacturerWebServiceAPI>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
+
+
 
 
             var app = builder.Build();

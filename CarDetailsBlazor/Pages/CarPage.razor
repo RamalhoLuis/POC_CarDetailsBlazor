@@ -7,7 +7,7 @@
 <h3>Cars!</h3>
 
 
-@if (jointCarInfo == null)
+@if (JointInfoVisible == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -53,8 +53,8 @@ else
             <tr class=" g-0 text-center">
                 <td class="table-success"> Lowest City Fuel Consumption: @JointInfoVisible.OrderByDescending(item => item.City).FirstOrDefault()?.Manufacturer,  @JointInfoVisible.OrderByDescending(item => item.City).FirstOrDefault()?.Name || MPG:@JointInfoVisible.OrderByDescending(item => item.City).FirstOrDefault()?.City</td>
                 <td class="table-success"> Lowest Highway Fuel Consumption: @JointInfoVisible.OrderByDescending(item => item.City).FirstOrDefault()?.Manufacturer,  @JointInfoVisible.OrderByDescending(item => item.Highway).FirstOrDefault()?.Name || MPG:@JointInfoVisible.OrderByDescending(item => item.Highway).FirstOrDefault()?.Highway</td>
-                <td class="table-info"> Number of Cars Models: @jointCarInfo.Select(c => c.Name).Distinct().Count()</td>
-                <td class="table-info"> Number Of Manufacturers: @jointCarInfo.Select(c => c.Manufacturer).Distinct().Count()</td>
+                <td class="table-info"> Number of Cars Models: @JointInfoVisible.Select(c => c.Name).Distinct().Count()</td>
+                <td class="table-info"> Number Of Manufacturers: @JointInfoVisible.Select(c => c.Manufacturer).Distinct().Count()</td>
             </tr>
 
         </tbody>
@@ -65,26 +65,26 @@ else
 }
 
 @code {
-
+    private const int PageSize = 12;
     private List<JointInfo> jointCarInfo;
     private List<JointInfo> JointInfoVisible { get; set; }
     private int PageNumber { get; set; }
     private bool IsFirstPage => PageNumber == 1;
-    private bool IsLastPage => JointInfoVisible.Count < 12;
+    private bool IsLastPage => JointInfoVisible.Count < PageSize;
 
 
 
     protected override async Task OnInitializedAsync()
     {
+        PageNumber = 1;
+        await LoadData(); 
 
-        jointCarInfo = await GetJointInfo();
-        LoadData();      
-        
     }
 
     private async Task<List<JointInfo>> GetJointInfo()
     {
-        var response = await httpClient.GetAsync("https://localhost:7126/api/jointinfo");
+        string url = string.Format(@"https://localhost:7126/api/jointinfo?page={0}&pageSize={1}", PageNumber.ToString(), PageSize.ToString());
+        var response = await httpClient.GetAsync(url);
         if (response.IsSuccessStatusCode)
         {            
             return await response.Content.ReadFromJsonAsync<List<JointInfo>>(); 
@@ -96,9 +96,10 @@ else
     }
 
 
-    private void LoadData()
+    private async Task LoadData()
     {
-        JointInfoVisible = jointCarInfo.Skip((PageNumber - 1) * 12).Take(12).ToList();
+        JointInfoVisible = await GetJointInfo();
+        StateHasChanged();
     }
 
     private void NextPage()
@@ -109,6 +110,7 @@ else
 
     private void PreviousPage()
     {
+       
         PageNumber--;
         LoadData();
     }
