@@ -9,7 +9,7 @@ namespace CarDetailsAPI.Controller
 {
 
     [ApiController]
-    [Route("api/jointinfo")]
+    [Route("api")]
     public class JointInfoController : ControllerBase
     {
         private IDataContext _dataContext;
@@ -18,10 +18,12 @@ namespace CarDetailsAPI.Controller
             _dataContext = dataContext;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<JointInfo>> GetJointInfo(int page = 1, int pageSize = 12)
-        {
-            var query = _dataContext.CarsDb.Include(x => x.Manufacturers).Skip(pageSize*(page -1)).Take(pageSize).ToList();
+        [HttpGet("/jointinfo")]
+        public ActionResult<IEnumerable<JointInfo>> GetJointInfo(int? page = 1, int? pageSize = 12)
+        {   
+            var query = _dataContext.CarsDb.Include(x => x.Manufacturers).Skip(pageSize.Value*(page.Value -1)).Take(pageSize.Value).ToList();
+            int totalObjects = query.Count;
+            int totalPages = (int)Math.Ceiling(totalObjects / (double)pageSize);
             List<JointInfo> jointCarInfo = (List<JointInfo>)(query.Select(car => new JointInfo
             {
                 Id = car.Id,

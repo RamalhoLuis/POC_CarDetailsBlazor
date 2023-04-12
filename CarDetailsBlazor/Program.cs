@@ -21,6 +21,8 @@ namespace CarDetailsBlazor
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
             builder.Services.AddRefitClient<IManufacturerWebServiceAPI>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
+            builder.Services.AddRefitClient<IJointInfoWebServiceAPI>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/"));
 
 
 

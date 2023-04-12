@@ -44,13 +44,14 @@
 }
 
 @code {
+    private int? Page { get; set; }
+    private int? PageSize { get; set; }
     public IEnumerable<Car> cars { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        cars = await CarWebServiceAPI.GetCars();
-        //if (getService is not null)
-        //{
+        cars = await CarWebServiceAPI.GetCars( Page, PageSize);
+
 
     }
 

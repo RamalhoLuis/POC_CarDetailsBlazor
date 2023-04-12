@@ -15,7 +15,7 @@ else
 {
     <button @onclick="FirstPage" class="btn btn-success">&lt;&lt;</button>
     <button @onclick="PreviousPage" disabled="@IsFirstPage" class="btn btn-success">Previous</button>
-    <button @onclick="NextPage" disabled="@IsLastPage" class="btn btn-success">Next</button>
+    <button @onclick="NextPage"  class="btn btn-success">Next</button>
     <button @onclick="LastPage" class="btn btn-success">>></button>
 
     <table class="table table-striped table-hover w-auto">
@@ -65,12 +65,13 @@ else
 }
 
 @code {
-    private const int PageSize = 12;
-    private List<JointInfo> jointCarInfo;
     private List<JointInfo> JointInfoVisible { get; set; }
+    public IEnumerable<JointInfo> jointInfo { get; set; }
     private int PageNumber { get; set; }
     private bool IsFirstPage => PageNumber == 1;
-    private bool IsLastPage => JointInfoVisible.Count < PageSize;
+    //private bool IsLastPage => JointInfoVisible.Count < PageSize;
+    private const int PageSize = 12;
+
 
 
 
@@ -81,9 +82,10 @@ else
 
     }
 
-    private async Task<List<JointInfo>> GetJointInfo()
+    private async Task<List<JointInfo>> GetJointInfo(int? PageNumber, int ? PageSize)
     {
-        string url = string.Format(@"https://localhost:7126/api/jointinfo?page={0}&pageSize={1}", PageNumber.ToString(), PageSize.ToString());
+
+        string url = string.Format(@"https://localhost:7126/jointinfo?page={0}&pageSize={1}", PageNumber.ToString(), PageSize.ToString());
         var response = await httpClient.GetAsync(url);
         if (response.IsSuccessStatusCode)
         {            
@@ -98,7 +100,7 @@ else
 
     private async Task LoadData()
     {
-        JointInfoVisible = await GetJointInfo();
+        JointInfoVisible = await GetJointInfo(PageNumber, PageSize);
         StateHasChanged();
     }
 
@@ -110,7 +112,7 @@ else
 
     private void PreviousPage()
     {
-       
+
         PageNumber--;
         LoadData();
     }
@@ -121,11 +123,11 @@ else
         LoadData();
     }
 
-    private void LastPage()
+    private async void LastPage()
     {
-        var totalCount = jointCarInfo.Count;
-        PageNumber = (int)Math.Ceiling((double)totalCount / 12);
-        LoadData();
+        int totalPages = (int)Math.Ceiling(JointInfoVisible.Count / (double)PageSize);
+    PageNumber = totalPages;
+    LoadData();
     }
 
 
