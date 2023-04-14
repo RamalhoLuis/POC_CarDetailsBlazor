@@ -1,0 +1,60 @@
+﻿@page "/carsMediatR"
+@using CarDetailsAPI.Queries;
+@using CarDetailsModels;
+@using Microsoft.Extensions.DependencyInjection;
+@using CarDetailsBlazor.Interfaces
+@inject ICarWebServiceAPI CarWebServiceAPI
+
+
+
+<h3>CarsMediatR</h3>
+
+    @if (cars is not null && cars.Any())
+    {
+        <table class="table table-striped table-hover w-auto">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Year</th>
+                    <th>Manufacturer</th>
+                    <th>Name</th>
+                    <th>Displacement</th>
+                    <th>Cylinders</th>
+                    <th>City MPG</th>
+                    <th>Highway MPG</th>
+                    <th>Combined MPG</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var car in cars)
+                {
+                    <tr>
+                        <td>@car.Id</td>
+                        <td>@car.Year</td>
+                        <td>@car.Manufacturer</td>
+                        <td>@car.Name</td>
+                        <td>@car.Displacement</td>
+                        <td>@car.Cylinders</td>
+                        <td>@car.City</td>
+                        <td>@car.Highway</td>
+                        <td>@car.Combined</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>        
+
+    }
+
+
+@code {
+    List<Car> cars;
+    protected override async Task OnInitializedAsync()
+    {
+        var  response = await CarWebServiceAPI.GetCars();
+        cars = response.ToList();
+
+    }
+
+}

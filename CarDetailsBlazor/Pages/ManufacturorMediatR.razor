@@ -1,0 +1,49 @@
+﻿@page "/manufacturersMediatR"
+@using CarDetailsAPI.Queries;
+@using CarDetailsModels;
+@using Microsoft.Extensions.DependencyInjection;
+@using CarDetailsBlazor.Interfaces
+@inject IManufacturerWebServiceAPI ManufacturerWebServiceAPI
+
+<h3>ManufacturorMediatR</h3>
+
+@if (manufacturers is not null && manufacturers.Any())
+{
+    <table class="table table-striped table-hover w-auto">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Year</th>
+                <th>Headquarters</th>
+                <th>Name</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var manufacturer in manufacturers)
+            {
+                <tr>
+                    <td>@manufacturer.Id</td>
+                    <td>@manufacturer.Name</td>
+                    <td>@manufacturer.Headquarters</td>
+                    <td>@manufacturer.Year</td>
+
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+}
+
+@code {
+    List<Manufacturer> manufacturers;
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await ManufacturerWebServiceAPI.GetManufacturers();
+        manufacturers = response.ToList();
+
+    }
+
+}

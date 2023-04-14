@@ -1,5 +1,4 @@
-﻿using CarDetailsBlazor.Pages;
-using CarDetailsDataAccess;
+﻿using CarDetailsDataAccess;
 using CarDetailsDataAccess.Data;
 using CarDetailsModels;
 using Microsoft.AspNetCore.Mvc;

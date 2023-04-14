@@ -6,6 +6,6 @@ namespace CarDetailsBlazor.Interfaces
     public interface ICarWebServiceAPI
     {
         [Get("/cars")]
-        Task<IEnumerable<Car>> GetCars(int? page, int? pageSize);
+        Task<List<Car>> GetCars(int? page=1 , int? pageSize = 1);
     }
 }

@@ -1,6 +1,9 @@
 using CarDetailsDataAccess.Data;
+using CarDetailsDataAccess.DataAccess;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Refit;
+using System.Reflection;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace CarDetailsAPI
@@ -21,9 +24,13 @@ namespace CarDetailsAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddSingleton<ICarDataAccess,CarDataAccess>();
+            builder.Services.AddSingleton<IManufacturerDataAccess, ManufacturerDataAccess>();
+
             // builder.Services.AddDbContext<IDataContext,AppDbContext>(option => option.UseSqlServer("Data Source=DESKTOP-7KHJ0MN\\SQLEXPRESS;Initial Catalog=CarAPPDatabase; Trusted_Connection=True; TrustServerCertificate=True;", b => b.MigrationsAssembly("CarDetailsAPI"))); //I set this on appsettings.json
             builder.Services
                 .AddDbContext<IDataContext, AppDbContext>(ServiceLifetime.Singleton); //I set this on appsettings.json
+            builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 
             var app = builder.Build();

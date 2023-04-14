@@ -2,7 +2,10 @@ using CarDetailsBlazor.Interfaces;
 using CarDetailsModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Refit;
+using MediatR;
 
 namespace CarDetailsBlazor
 {
@@ -17,12 +20,14 @@ namespace CarDetailsBlazor
             builder.Services.AddServerSideBlazor();
             builder.Services.AddHttpClient();
             builder.Services.AddMvc();
+
+
             builder.Services.AddRefitClient<ICarWebServiceAPI>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
             builder.Services.AddRefitClient<IManufacturerWebServiceAPI>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
             builder.Services.AddRefitClient<IJointInfoWebServiceAPI>()
-    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/"));
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/"));
 
 
 
