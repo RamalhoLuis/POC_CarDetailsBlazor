@@ -2,7 +2,14 @@ using CarDetailsBlazor.Interfaces;
 using CarDetailsModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Refit;
+using MediatR;
+using System.Reflection;
+using CarDetailsDataAccess.DataAccess;
+using CarDetailsAPI;
+using CarDetailsAPI.Queries;
 
 namespace CarDetailsBlazor
 {
@@ -17,12 +24,23 @@ namespace CarDetailsBlazor
             builder.Services.AddServerSideBlazor();
             builder.Services.AddHttpClient();
             builder.Services.AddMvc();
+
+
             builder.Services.AddRefitClient<ICarWebServiceAPI>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
             builder.Services.AddRefitClient<IManufacturerWebServiceAPI>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
             builder.Services.AddRefitClient<IJointInfoWebServiceAPI>()
-    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/"));
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/"));
+
+
+            //builder.Services.AddMediatR(typeof(CarLibraryMediatREntrypoint).Assembly);
+
+            builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            /*builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(GetCarsListQuery)));
+            */
+
+
 
 
 

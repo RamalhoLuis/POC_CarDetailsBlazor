@@ -1,10 +1,13 @@
 ﻿@page "/searchdeletecar"
+@using CarDetailsAPI.Queries;
+@using CarDetailsBlazor.Interfaces;
 @using CarDetailsModels;
 @using CarDetailsBlazor;
 @using System.Net.Http.Json;
 @using System.Net.Http;
 @using Microsoft.AspNetCore.Mvc;
 @using System.Text.Json;
+@inject ICarWebServiceAPI CarWebServiceAPI
 
 <h3>Search And Delete</h3>
 
@@ -90,19 +93,22 @@
         }
     }
 
-    private async Task SearchCarRecord(int carId)
+    private async Task SearchCarRecord(int id)
     {
-        HttpResponseMessage response = await httpClient.GetAsync($"https://localhost:7126/api/cars/{carId}");
-        if (response.IsSuccessStatusCode)
-        {
-            statusMessage = "Hell yeah! Car Found!";
-            newCar = (Car)await response.Content.ReadFromJsonAsync<Car>();
-            carSearched = true;
-        }
-        else
-        {
-            statusMessage = "Car Not Found";
-        }
+        //HttpResponseMessage response = await httpClient.GetAsync($"https://localhost:7126/api/cars/{id}");
+        //if (response.IsSuccessStatusCode)
+        //{
+        //    statusMessage = "Hell yeah! Car Found!";
+        //    newCar = (Car)await response.Content.ReadFromJsonAsync<Car>();
+        //    carSearched = true;
+        //}
+        //else
+        //{
+        //    statusMessage = "Car Not Found";
+        //}
+        newCar = await CarWebServiceAPI.GetCarById(id);
+
+
     }
 
 }

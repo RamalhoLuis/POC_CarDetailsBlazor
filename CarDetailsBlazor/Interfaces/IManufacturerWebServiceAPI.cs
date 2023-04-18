@@ -6,6 +6,6 @@ namespace CarDetailsBlazor.Interfaces
     public interface IManufacturerWebServiceAPI
     {
         [Get("/manufacturers")]
-        Task<IEnumerable<Manufacturer>> GetManufacturers();
+        Task<List<Manufacturer>> GetManufacturers(int? page = 1, int? pageSize = 1);
     }
 }
