@@ -36,7 +36,7 @@ namespace CarDetailsAPI.Controller
         }
 
         [HttpPost]
-        public ActionResult<List<Car>> CreateCar([FromBody] Car value)
+        public async Task<ActionResult<Car>> CreateCar([FromBody] Car value)
         {
             //if (_dataContext.CarsDb.Any(m => m.Year == car.Year && m.Manufacturer == car.Manufacturer && m.Name == car.Name && m.Displacement == car.Displacement && m.Cylinders == car.Cylinders && m.City == car.City && m.Highway == car.Highway && m.Combined == car.Combined))
             //{
@@ -45,7 +45,10 @@ namespace CarDetailsAPI.Controller
             //_dataContext.CarsDb.Add(car);
             //_dataContext.SaveChanges();
             //return Ok();
-            var result = _mediatr.Send(new InsertCarCommand(value.Year, value.Manufacturer, value.Name, value.Displacement, value.Cylinders, value.City, value.Highway, value.Combined));
+            var result = await _mediatr.Send(new InsertCarCommand
+            {
+                Car = value
+            });
             return Ok(result);
         }
 
@@ -76,8 +79,7 @@ namespace CarDetailsAPI.Controller
             //_dataContext.CarsDb.Remove(carToDelete);
             //_dataContext.SaveChanges();
             //return NoContent();
-                        var result = _mediatr.Send(
-            new GetCarByIdQuery(id)
+                        var result = _mediatr.Send(new GetCarByIdQuery(id)
             );
             return Ok(result.Result);
         }
