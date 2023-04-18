@@ -3,7 +3,7 @@
 @using CarDetailsModels;
 @using Microsoft.Extensions.DependencyInjection;
 @using CarDetailsBlazor.Interfaces
-@inject ICarWebServiceAPI CarWebServiceAPI
+@inject MediatR.IMediator _mediator
 
 
 
@@ -52,8 +52,7 @@
     List<Car> cars;
     protected override async Task OnInitializedAsync()
     {
-        var  response = await CarWebServiceAPI.GetCars();
-        cars = response.ToList();
+        cars = await _mediator.Send(new GetCarsListQuery());
 
     }
 

@@ -48,18 +48,7 @@ namespace CarDetailsAPI.Controller
             var result = _mediatr.Send(new InsertCarCommand(value.Year, value.Manufacturer, value.Name, value.Displacement, value.Cylinders, value.City, value.Highway, value.Combined));
             return Ok(result);
         }
-        [HttpDelete("{id}")]
-        public IActionResult DeleteCar(int id)
-        {
-            var carToDelete = _dataContext.CarsDb.FirstOrDefault(c => c.Id == id);
-            if (carToDelete == null)
-            {
-                return NotFound();
-            }
-            _dataContext.CarsDb.Remove(carToDelete);
-            _dataContext.SaveChanges();
-            return NoContent();
-        }
+
         [HttpGet("{id}")]
         public ActionResult<Car> GetCarId(int id)
         {
@@ -71,6 +60,23 @@ namespace CarDetailsAPI.Controller
             //return Ok(carToSearch);
 
             var result = _mediatr.Send(
+            new GetCarByIdQuery(id)
+            );
+            return Ok(result.Result);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCar(int id)
+        {
+            //var carToDelete = _dataContext.CarsDb.FirstOrDefault(c => c.Id == id);
+            //if (carToDelete == null)
+            //{
+            //    return NotFound();
+            //}
+            //_dataContext.CarsDb.Remove(carToDelete);
+            //_dataContext.SaveChanges();
+            //return NoContent();
+                        var result = _mediatr.Send(
             new GetCarByIdQuery(id)
             );
             return Ok(result.Result);

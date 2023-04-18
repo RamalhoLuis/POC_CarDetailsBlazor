@@ -29,6 +29,7 @@ namespace CarDetailsDataAccess.DataAccess
         {
             Car newCar = new Car
             {
+               
                 Year = year,
                 Manufacturer = manufacturer,
                 Name = name,
@@ -43,6 +44,16 @@ namespace CarDetailsDataAccess.DataAccess
             dbContext.SaveChanges();
 
             return dbContext.CarsDb.ToList();
+        }
+
+        public Car GetCarById(int id)
+        {
+            return null;
+        }
+
+        public List<Car> DeleteCarById(int id) 
+        {
+            return null;
         }
     }
 }

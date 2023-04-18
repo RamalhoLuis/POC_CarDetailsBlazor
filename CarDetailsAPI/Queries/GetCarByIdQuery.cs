@@ -4,7 +4,7 @@ using MediatR;
 
 namespace CarDetailsAPI.Queries
 {
-    public record GetCarByIdQuery : IRequest<Car> 
+    public class GetCarByIdQuery : IRequest<Car> 
     {
         public int Id { get; }
 

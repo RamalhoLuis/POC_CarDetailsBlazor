@@ -7,5 +7,9 @@ namespace CarDetailsBlazor.Interfaces
     {
         [Get("/cars")]
         Task<List<Car>> GetCars(int? page=1 , int? pageSize = 1);
+
+        [Get("/car/{id}")]
+        Task<Car> GetCarById(int id);
+
     }
 }

@@ -48,6 +48,23 @@ namespace CarDetailsAPI.Controller
             var result = _mediatr.Send(new InsertManufacturerCommand(manufacturer.Name, manufacturer.Headquarters, manufacturer.Year));
             return Ok(result);
         }
+
+        [HttpGet("{id}")]
+        public ActionResult<Manufacturer> GetManufacturerId(int id)
+        {
+            //var carToSearch = _dataContext.CarsDb.FirstOrDefault(c => c.Id == id);
+            //if (carToSearch == null)
+            //{
+            //    return NotFound();
+            //}
+            //return Ok(carToSearch);
+
+            var result = _mediatr.Send(
+            new GetManufacturerByIdQuery(id)
+            );
+            return Ok(result.Result);
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteManufacturer(int id)
         {

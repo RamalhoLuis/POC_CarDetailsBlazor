@@ -1,7 +1,10 @@
+using CarDetailsAPI.Helpers;
+using CarDetailsAPI.Queries;
 using CarDetailsDataAccess.Data;
 using CarDetailsDataAccess.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System.Reflection;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -31,6 +34,11 @@ namespace CarDetailsAPI
             builder.Services
                 .AddDbContext<IDataContext, AppDbContext>(ServiceLifetime.Singleton); //I set this on appsettings.json
             builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(GetCarsListQuery)));
+
+
+
 
 
             var app = builder.Build();
