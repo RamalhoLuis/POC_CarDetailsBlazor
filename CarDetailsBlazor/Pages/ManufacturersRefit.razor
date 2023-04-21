@@ -23,9 +23,9 @@
             {
                 <tr>
                     <td>@manufacturer.Id</td>
-                    <td>@manufacturer.Name</td>
-                    <td>@manufacturer.Headquarters</td>
-                    <td>@manufacturer.Year</td>
+                    <td>@manufacturer.MappedName</td>
+                    <td>@manufacturer.MappedHeadquarters</td>
+                    <td>@manufacturer.MappedYear</td>
 
                 </tr>
             }
@@ -36,7 +36,7 @@
 }
 
 @code {
-    public IEnumerable<Manufacturer> manufacturers { get; set; }
+    public IEnumerable<CarDetailsAPI.Models.ManufacturersModel> manufacturers { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

@@ -1,6 +1,6 @@
-﻿using CarDetailsDataAccess.DataAccess;
-using CarDetailsModels;
+﻿using CarDetailsModels;
 using MediatR;
+using Car = CarDetailsAPI.Models.CarsModel;
 
 namespace CarDetailsAPI.Queries
 {

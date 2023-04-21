@@ -5,10 +5,10 @@ namespace CarDetailsBlazor.Interfaces
 {
     public interface ICarWebServiceAPI
     {
-        [Get("/cars")]
-        Task<List<Car>> GetCars(int? page=1 , int? pageSize = 1);
+        [Get("/api/cars")]
+        Task<List<CarDetailsAPI.Models.CarsModel>> GetCars(int? page = 1, int? pageSize = 1);
 
-        [Get("/car/{id}")]
+        [Get("/api/car/{id}")]
         Task<Car> GetCarById(int id);
 
     }

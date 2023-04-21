@@ -5,6 +5,7 @@
 @using System.Net.Http;
 @using Microsoft.AspNetCore.Mvc;
 @using System.Text.Json;
+@inject IMediator _mediatr
 
 
 <h3>Add New Car</h3>
@@ -77,10 +78,11 @@
 
     private async Task AddCarAndManufacturer()
     {
-
-        await httpClient.PostAsJsonAsync<Manufacturer>("https://localhost:7126/api/manufacturers", newManufacturer);
-        var response = await httpClient.PostAsJsonAsync<Car>("https://localhost:7126/api/cars", newCar);
-        if (response.IsSuccessStatusCode)
+        var response = await _mediatr.Send(new InsertCarCommand { Car = newCar });
+        await _mediatr.Send(new InsertManufacturerCommand { Manufacturer = newManufacturer });
+        //await httpClient.PostAsJsonAsync<Manufacturer>("https://localhost:7126/api/manufacturers", newManufacturer);
+        //var response = await httpClient.PostAsJsonAsync<Car>("https://localhost:7126/api/cars", newCar);
+        if (response != null)
         {
             statusMessage += " New Car added successfully!";
         }

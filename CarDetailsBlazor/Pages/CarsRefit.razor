@@ -28,14 +28,14 @@
             {
                 <tr>
                     <td>@car.Id</td>
-                    <td>@car.Year</td>
-                    <td>@car.Manufacturer</td>
-                    <td>@car.Name</td>
-                    <td>@car.Displacement</td>
-                    <td>@car.Cylinders</td>
-                    <td>@car.City</td>
-                    <td>@car.Highway</td>
-                    <td>@car.Combined</td>
+                    <td>@car.MappedYear</td>
+                    <td>@car.MappedManufacturer</td>
+                    <td>@car.MappedName</td>
+                    <td>@car.MappedDisplacement</td>
+                    <td>@car.MappedCylinders</td>
+                    <td>@car.MappedCity</td>
+                    <td>@car.MappedHighway</td>
+                    <td>@car.MappedCombined</td>
                 </tr>
             }
         </tbody>
@@ -46,7 +46,7 @@
 @code {
     private int? Page { get; set; }
     private int? PageSize { get; set; }
-    public IEnumerable<Car> cars { get; set; }
+    public IEnumerable<CarDetailsAPI.Models.CarsModel> cars { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

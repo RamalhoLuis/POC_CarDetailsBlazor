@@ -1,4 +1,5 @@
 ﻿using CarDetailsModels;
+using Manufacturer = CarDetailsAPI.Models.ManufacturersModel;
 using MediatR;
 
 namespace CarDetailsAPI.Queries

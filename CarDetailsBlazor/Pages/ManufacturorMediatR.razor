@@ -24,9 +24,9 @@
             {
                 <tr>
                     <td>@manufacturer.Id</td>
-                    <td>@manufacturer.Name</td>
-                    <td>@manufacturer.Headquarters</td>
-                    <td>@manufacturer.Year</td>
+                    <td>@manufacturer.MappedName</td>
+                    <td>@manufacturer.MappedHeadquarters</td>
+                    <td>@manufacturer.MappedYear</td>
 
 
                 </tr>
@@ -38,11 +38,13 @@
 }
 
 @code {
-    List<Manufacturer> manufacturers;
+    List<CarDetailsAPI.Models.ManufacturersModel> manufacturers;
     protected override async Task OnInitializedAsync()
     {
         var response = await ManufacturerWebServiceAPI.GetManufacturers();
+        //manufacturers.AddRange(_manufacturers) = (List<CarDetailsAPI.Models.Manufacturer>)(_manufacturers).ToList();
         manufacturers = response.ToList();
+
 
     }
 

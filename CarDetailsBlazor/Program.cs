@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using MediatR;
 using System.Reflection;
-using CarDetailsDataAccess.DataAccess;
 using CarDetailsAPI;
 using CarDetailsAPI.Queries;
 
@@ -27,11 +26,11 @@ namespace CarDetailsBlazor
 
 
             builder.Services.AddRefitClient<ICarWebServiceAPI>()
-            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126"));
             builder.Services.AddRefitClient<IManufacturerWebServiceAPI>()
-            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/api"));
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126"));
             builder.Services.AddRefitClient<IJointInfoWebServiceAPI>()
-            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126/"));
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:7126"));
 
 
             //builder.Services.AddMediatR(typeof(CarLibraryMediatREntrypoint).Assembly);

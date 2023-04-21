@@ -1,5 +1,4 @@
 ﻿using CarDetailsDataAccess.Data;
-using CarDetailsDataAccess.DataAccess;
 using CarDetailsModels;
 using MediatR;
 

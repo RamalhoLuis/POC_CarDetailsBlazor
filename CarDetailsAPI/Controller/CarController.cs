@@ -24,19 +24,19 @@ namespace CarDetailsAPI.Controller
 
 
         [HttpGet]
-        public ActionResult<List<Car>> GetCars()
+        public async Task<ActionResult<List<CarDetailsAPI.Models.CarsModel>>> GetCarsAsync()
         {
             //CarDataStore carData = new CarDataStore(@"..\CarDetailsDataAccess\fuel.csv");
             //return Ok(carData.cars);
             //List<Car> query = _dataContext.CarsDb.ToList();
-            var result = _mediatr.Send(
+            var result = await _mediatr.Send(
                 new GetCarsListQuery()
                 );
-            return Ok(result.Result);
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Car>> CreateCar([FromBody] Car value)
+        public async Task<ActionResult<CarDetailsAPI.Models.CarsModel>> CreateCar([FromBody] Car value)
         {
             //if (_dataContext.CarsDb.Any(m => m.Year == car.Year && m.Manufacturer == car.Manufacturer && m.Name == car.Name && m.Displacement == car.Displacement && m.Cylinders == car.Cylinders && m.City == car.City && m.Highway == car.Highway && m.Combined == car.Combined))
             //{
@@ -53,7 +53,7 @@ namespace CarDetailsAPI.Controller
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Car> GetCarId(int id)
+        public ActionResult<CarDetailsAPI.Models.CarsModel> GetCarId(int id)
         {
             //var carToSearch = _dataContext.CarsDb.FirstOrDefault(c => c.Id == id);
             //if (carToSearch == null)

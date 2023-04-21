@@ -22,21 +22,33 @@ namespace CarDetailsAPI.Controller
             _dataContext = dataContext;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Manufacturer>> GetManufacturers()
+        public async Task<ActionResult<List<CarDetailsAPI.Models.ManufacturersModel>>> GetManufacturersAsync()
         {
             //ManuDataStore manuData = new ManuDataStore(@"..\CarDetailsDataAccess\manufacturers.csv");
             //return Ok(manuData.manufacturers);
             //List<Manufacturer> query = _dataContext.ManufacturersDb.ToList();
             //return Ok(query);
-            var result = _mediatr.Send(
+            var result = await _mediatr.Send(
                 new GetManufacturersListQuery()
                 );
-            return Ok(result.Result);
+            return Ok(result);
         }
+        //[HttpGet("/getmanu")]
+        //public async Task<ActionResult<List<CarDetailsAPI.Models.ManufacturerModel>>> GetManufacturers()
+        //{
+        //    //ManuDataStore manuData = new ManuDataStore(@"..\CarDetailsDataAccess\manufacturers.csv");
+        //    //return Ok(manuData.manufacturers);
+        //    //List<Manufacturer> query = _dataContext.ManufacturersDb.ToList();
+        //    //return Ok(query);
+        //    var result = await _mediatr.Send(
+        //        new GetManufacturersListQuery()
+        //        );
+        //    return Ok(result);
+        //}
 
 
         [HttpPost]
-        public ActionResult<Manufacturer> CreateManufacturer([FromBody] Manufacturer manufacturer)
+        public async Task<ActionResult<CarDetailsAPI.Models.ManufacturersModel>> CreateManufacturer([FromBody] Manufacturer value)
         {
             //if (_dataContext.ManufacturersDb.Any(m => m.Name == manufacturer.Name && m.Headquarters == manufacturer.Headquarters && m.Year == manufacturer.Year))
             //{
@@ -45,12 +57,16 @@ namespace CarDetailsAPI.Controller
             //_dataContext.ManufacturersDb.Add(manufacturer);
             //_dataContext.SaveChanges();
             //return Ok();
-            var result = _mediatr.Send(new InsertManufacturerCommand(manufacturer.Name, manufacturer.Headquarters, manufacturer.Year));
+            //return Ok();
+            var result = await _mediatr.Send(new InsertManufacturerCommand
+            {
+                //Manufacturer = value
+            });
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Manufacturer> GetManufacturerId(int id)
+        public ActionResult<CarDetailsAPI.Models.ManufacturersModel> GetManufacturerId(int id)
         {
             //var carToSearch = _dataContext.CarsDb.FirstOrDefault(c => c.Id == id);
             //if (carToSearch == null)

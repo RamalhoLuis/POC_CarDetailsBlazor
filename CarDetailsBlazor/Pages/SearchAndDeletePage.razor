@@ -7,7 +7,7 @@
 @using System.Net.Http;
 @using Microsoft.AspNetCore.Mvc;
 @using System.Text.Json;
-@inject ICarWebServiceAPI CarWebServiceAPI
+@inject IMediator mediator
 
 <h3>Search And Delete</h3>
 
@@ -74,9 +74,11 @@
 
 
 
+
     protected override async Task OnInitializedAsync()
     {
         httpClient = new HttpClient();
+
     }
 
     private async Task DeleteCarRecord(int carId)
@@ -106,7 +108,8 @@
         //{
         //    statusMessage = "Car Not Found";
         //}
-        newCar = await CarWebServiceAPI.GetCarById(id);
+        var query = new GetCarByIdQuery(id);
+        var car = await mediator.Send(query);
 
 
     }
