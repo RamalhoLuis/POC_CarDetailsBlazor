@@ -1,4 +1,5 @@
-﻿using CarDetailsModels;
+﻿using CarDetailsBlazor.Data;
+using CarDetailsModels;
 using Refit;
 
 namespace CarDetailsBlazor.Interfaces
@@ -8,8 +9,8 @@ namespace CarDetailsBlazor.Interfaces
         [Get("/api/cars")]
         Task<List<CarDetailsAPI.Models.CarsModel>> GetCars(int? page = 1, int? pageSize = 1);
 
-        [Get("/api/car/{id}")]
-        Task<Car> GetCarById(int id);
+        [Get("/api/cars/{id}")]
+        Task<CarResponse> GetCarById(int id);
 
     }
 }

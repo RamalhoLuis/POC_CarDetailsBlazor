@@ -1,4 +1,5 @@
-﻿using CarDetailsDataAccess.Data;
+﻿using AutoMapper;
+using CarDetailsDataAccess.Data;
 using CarDetailsModels;
 using MediatR;
 
@@ -11,11 +12,13 @@ namespace CarDetailsAPI.Commands
         {
 
                 private readonly IDataContext _data;
+                private readonly IMapper _mapper;
 
-                public DeleteCarByIdHandler(IDataContext data)
+            public DeleteCarByIdHandler(IDataContext data, IMapper mapper)
                 {
                     _data = data;
-                }
+                     mapper = mapper;
+            }
 
                 public Task Handle(DeleteCarByIdCommand request, CancellationToken cancellationToken)
                 {
@@ -25,7 +28,8 @@ namespace CarDetailsAPI.Commands
                         return null;
                     else
                     {
-                        _data.CarsDb.Remove(car);
+                    var mapped = _mapper.Map<CarDetailsModels.Car>(request.Id);
+                    _data.CarsDb.Remove(car);
                         _data.SaveChanges();
 
                         return Task.FromResult(request.Id);

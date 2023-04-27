@@ -6,6 +6,8 @@
 @using Microsoft.AspNetCore.Mvc;
 @using System.Text.Json;
 @inject IMediator _mediatr
+@using Manufacturer = CarDetailsAPI.Models.ManufacturersModel;
+@using Car = CarDetailsAPI.Models.CarsModel;
 
 
 <h3>Add New Car</h3>
@@ -14,47 +16,47 @@
 
     <div class="mb-2">
         <label for="manufacturerName">Manufacturer Name:</label>
-        <input id="manufacturerName" type="text" @bind="newManufacturer.Name" placeholder="Insert value.." />
+        <input id="manufacturerName" type="text" @bind="newManufacturer.MappedName" placeholder="Insert value.." />
     </div>
     <div class="mb-2">
         <label for="manufacturerHQ">Manufacturer Headquarters:</label>
-        <input id="manufacturerHQ" type="text" @bind="newManufacturer.Headquarters" placeholder="Insert value.." />
+        <input id="manufacturerHQ" type="text" @bind="newManufacturer.MappedHeadquarters" placeholder="Insert value.." />
     </div>
     <div class="mb-2">
         <label for="manufacturerYear">Manufacturer Year:</label>
-        <input id="manufacturerYear" type="text" @bind="newManufacturer.Year" placeholder="Insert value.." />
+        <input id="manufacturerYear" type="text" @bind="newManufacturer.MappedYear" placeholder="Insert value.." />
     </div>
     <div class="mb-2">
         <label for="carYear">Car Year:</label>
-        <input id="carYear" type="text" @bind="newCar.Year" placeholder="Insert value.." />
+        <input id="carYear" type="text" @bind="newCar.MappedYear" placeholder="Insert value.." />
     </div>
     <div class="mb-2">
         <label for="carManufacturer">Car Manufacturer:</label>
-        <input id="carManufacturer" type="text" @bind="newCar.Manufacturer" placeholder="Insert value.." />
+        <input id="carManufacturer" type="text" @bind="newCar.MappedManufacturer" placeholder="Insert value.." />
     </div>
     <div class="mb-2">
         <label for="carName">Car Name:</label>
-        <input id="carName" type="text" @bind="newCar.Name" placeholder="Insert value.." />
+        <input id="carName" type="text" @bind="newCar.MappedName" placeholder="Insert value.." />
     </div>
     <div class="mb-2">
         <label for="carDisplacement">Car Displacement:</label>
-        <input id="carDisplacement" type="number" step="0.1" @bind="newCar.Displacement" placeholder="Insert value.." />
+        <input id="carDisplacement" type="number" step="0.1" @bind="newCar.MappedDisplacement" placeholder="Insert value.." />
     </div>
     <div class="mb-2">
         <label for="carCylinders">Car Cylinders:</label>
-        <input id="carCylinders" type="number" @bind="newCar.Cylinders" placeholder="Insert value.." />
+        <input id="carCylinders" type="number" @bind="newCar.MappedCylinders" placeholder="Insert value.." />
     </div>
     <div class="mb-2">
         <label for="carCity">Car City Fuel Efficiency:</label>
-        <input id="carCity" type="text" @bind="newCar.City" placeholder="Insert value.." />
+        <input id="carCity" type="text" @bind="newCar.MappedCity" placeholder="Insert value.." />
     </div>
     <div class="mb-2">
         <label for="carHighway">Car Highway Fuel Efficiency:</label>
-        <input id="carHighway" type="text" @bind="newCar.Highway" placeholder="Insert value.." />
+        <input id="carHighway" type="text" @bind="newCar.MappedHighway" placeholder="Insert value.." />
     </div>
     <div class="mb-2">
         <label for="carCombined">Car Combined Fuel Efficiency:</label>
-        <input id="carCombined" type="text" @bind="newCar.Combined" placeholder="Insert value.." />
+        <input id="carCombined" type="text" @bind="newCar.MappedCombined" placeholder="Insert value.." />
     </div>
     <button type="submit" @onclick="AddCarAndManufacturer" class="btn btn-success">Add New Car</button>
 
@@ -79,7 +81,7 @@
     private async Task AddCarAndManufacturer()
     {
         var response = await _mediatr.Send(new InsertCarCommand { Car = newCar });
-        await _mediatr.Send(new InsertManufacturerCommand { Manufacturer = newManufacturer });
+        //await _mediatr.send(new InsertManufacturerCommand { Manufacturer = newManufacturer });
         //await httpClient.PostAsJsonAsync<Manufacturer>("https://localhost:7126/api/manufacturers", newManufacturer);
         //var response = await httpClient.PostAsJsonAsync<Car>("https://localhost:7126/api/cars", newCar);
         if (response != null)

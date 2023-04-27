@@ -1,6 +1,8 @@
-﻿using CarDetailsDataAccess.Data;
+﻿using AutoMapper;
+using CarDetailsDataAccess.Data;
 using CarDetailsModels;
 using MediatR;
+using Car = CarDetailsAPI.Models.CarsModel;
 
 namespace CarDetailsAPI.Commands
 {
@@ -10,20 +12,25 @@ namespace CarDetailsAPI.Commands
         public class InsertCarHandler : IRequestHandler<InsertCarCommand, Car>
         {
             private readonly IDataContext _data;
-            public InsertCarHandler(IDataContext data)
+            private readonly IMapper _mapper;
+            public InsertCarHandler(IDataContext data, IMapper mapper)
             {
                 _data = data;
+                _mapper = mapper;
 
             }
             public async Task<Car> Handle(InsertCarCommand request, CancellationToken cancellationToken)
             {
-                var car = _data.CarsDb.Contains(request.Car);
-                if (car)
-                    return null;
+                if (request.Car != null)
+                {
+                    var mapped = _mapper.Map<CarDetailsModels.Car>(request.Car);
+                    _data.CarsDb.Add(mapped);
+                    await _data.SaveChangesAsync(cancellationToken);
+                }
+                    
                 else
                 {
-                     _data.CarsDb.Add(request.Car);
-                     await _data.SaveChangesAsync(cancellationToken);
+                    return null;
                 }
                 return await Task.FromResult(request.Car);
             }

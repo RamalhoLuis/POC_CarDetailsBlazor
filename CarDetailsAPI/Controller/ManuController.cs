@@ -33,22 +33,10 @@ namespace CarDetailsAPI.Controller
                 );
             return Ok(result);
         }
-        //[HttpGet("/getmanu")]
-        //public async Task<ActionResult<List<CarDetailsAPI.Models.ManufacturerModel>>> GetManufacturers()
-        //{
-        //    //ManuDataStore manuData = new ManuDataStore(@"..\CarDetailsDataAccess\manufacturers.csv");
-        //    //return Ok(manuData.manufacturers);
-        //    //List<Manufacturer> query = _dataContext.ManufacturersDb.ToList();
-        //    //return Ok(query);
-        //    var result = await _mediatr.Send(
-        //        new GetManufacturersListQuery()
-        //        );
-        //    return Ok(result);
-        //}
 
 
         [HttpPost]
-        public async Task<ActionResult<CarDetailsAPI.Models.ManufacturersModel>> CreateManufacturer([FromBody] Manufacturer value)
+        public async Task<ActionResult<CarDetailsAPI.Models.ManufacturersModel>> CreateManufacturer([FromBody] CarDetailsAPI.Models.ManufacturersModel value)
         {
             //if (_dataContext.ManufacturersDb.Any(m => m.Name == manufacturer.Name && m.Headquarters == manufacturer.Headquarters && m.Year == manufacturer.Year))
             //{
@@ -60,7 +48,7 @@ namespace CarDetailsAPI.Controller
             //return Ok();
             var result = await _mediatr.Send(new InsertManufacturerCommand
             {
-                //Manufacturer = value
+                Manufacturer = value
             });
             return Ok(result);
         }

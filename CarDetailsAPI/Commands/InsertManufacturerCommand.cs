@@ -1,6 +1,8 @@
-﻿using CarDetailsDataAccess.Data;
+﻿using AutoMapper;
+using CarDetailsDataAccess.Data;
 using CarDetailsModels;
 using MediatR;
+using Manufacturer = CarDetailsAPI.Models.ManufacturersModel;
 
 
 namespace CarDetailsAPI.Commands
@@ -11,20 +13,27 @@ namespace CarDetailsAPI.Commands
         public class InsertManufacturerHandler : IRequestHandler<InsertManufacturerCommand, Manufacturer>
         {
             private readonly IDataContext _data;
-            public InsertManufacturerHandler(IDataContext data)
+            private readonly IMapper _mapper;
+            public InsertManufacturerHandler(IDataContext data, IMapper mapper)
             {
                 _data = data;
+                _mapper = mapper;
+
 
             }
             public async Task<Manufacturer> Handle(InsertManufacturerCommand request, CancellationToken cancellationToken)
             {
-                var manufacturer = _data.ManufacturersDb.Contains(request.Manufacturer);
-                if (manufacturer)
-                    return null;
+               //var manufacturer = await _data.ManufacturersDb.FindAsync(request.Manufacturer);
+                if (request.Manufacturer != null)
+                {
+                    var mapped = _mapper.Map<CarDetailsModels.Manufacturer>(request.Manufacturer);
+                    _data.ManufacturersDb.Add(mapped);
+                    await _data.SaveChangesAsync(cancellationToken);
+                }
+
                 else
                 {
-                    _data.ManufacturersDb.Add(request.Manufacturer);
-                    await _data.SaveChangesAsync(cancellationToken);
+                    return null;
                 }
                 return await Task.FromResult(request.Manufacturer);
             }

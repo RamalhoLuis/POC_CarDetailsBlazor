@@ -1,6 +1,8 @@
 ﻿using CarDetailsModels;
 using Manufacturer = CarDetailsAPI.Models.ManufacturersModel;
 using MediatR;
+using AutoMapper;
+using CarDetailsDataAccess.Data;
 
 namespace CarDetailsAPI.Queries
 {
@@ -16,17 +18,29 @@ namespace CarDetailsAPI.Queries
         public class GetManufacturerByIdHandler : IRequestHandler<GetManufacturerByIdQuery, Manufacturer>
         {
             private readonly IMediator _mediator;
-            public GetManufacturerByIdHandler(IMediator mediator)
+
+            private readonly IDataContext _dataContext;
+
+            private readonly IMapper _mapper;
+            public GetManufacturerByIdHandler(IMediator mediator, IDataContext dataContext, IMapper mapper)
             {
                 _mediator = mediator;
+                _dataContext = dataContext;
+                _mapper = mapper;
             }
 
             public async Task<Manufacturer> Handle(GetManufacturerByIdQuery request, CancellationToken cancellationToken)
             {
-                var results = await _mediator.Send(new GetManufacturersListQuery());
-                var output = results.FirstOrDefault(x => x.Id == request.Id);
+                var manufacturer = _dataContext.ManufacturersDb.FirstOrDefault(x => x.Id == request.Id);
 
-                return output;
+                if (manufacturer == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _mapper.Map<CarDetailsAPI.Models.ManufacturersModel>(manufacturer);
+                }
             }
 
         }
