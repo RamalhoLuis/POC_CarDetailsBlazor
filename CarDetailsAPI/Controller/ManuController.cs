@@ -66,7 +66,11 @@ namespace CarDetailsAPI.Controller
             var result = _mediatr.Send(
             new GetManufacturerByIdQuery(id)
             );
-            return Ok(result.Result);
+            if (result.Result is null)
+            {
+                return Ok(result);
+            }
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]

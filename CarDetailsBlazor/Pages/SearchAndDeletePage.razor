@@ -99,6 +99,7 @@
     private HttpClient httpClient;
     private string statusMessage;
     private bool carSearched = false;
+    private bool manuSearched = false;
     private bool carDeleted = false;
     private int Id;
 
@@ -141,16 +142,16 @@
         try
         {
             var response = await CarWebServiceAPI.GetCarById(id);
-            if(response.Result is not null)
+            if(response.Car is not null)
             {
                 carSearched = true;
-                newCar = response.Result;
+                newCar = response.Car;
             }
 
         }
         catch (Exception e)
         {
-            
+
             throw;
         }
 
@@ -170,19 +171,24 @@
         //{
         //    statusMessage = "Car Not Found";
         //}
+        try
+        {
+            var response = await ManufacturerWebServiceAPI.GetManufacturerById(id);
+            if (response.Manufacturer is not null)
+            {
 
-        var response = await ManufacturerWebServiceAPI.GetManufacturerById(id);
-        if (id != null)
+                manuSearched = true;
+                newManufacturer = response.Manufacturer;
+
+            }
+        }
+        catch (Exception e)
         {
 
-            carSearched = true;
-            newManufacturer = response;
-            statusMessage = "Ok!Manufacturer Found!";
+            throw;
         }
-        else
-        {
-            statusMessage = "Manufacturer Not Found";
-        }
+
+
 
 
 

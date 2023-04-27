@@ -2,11 +2,10 @@
 
 namespace CarDetailsBlazor.Data
 {
-    // Root myDeserializedClass = JsonSerializer.Deserialize<Root>(myJsonResponse);
-    public class CarResponse
+    public class ManuResponse
     {
         [JsonPropertyName("result")]
-        public CarDetailsAPI.Models.CarsModel Car { get; set; }
+        public CarDetailsAPI.Models.ManufacturersModel Manufacturer { get; set; }
 
         [JsonPropertyName("id")]
         public int Id { get; set; }
@@ -35,4 +34,6 @@ namespace CarDetailsBlazor.Data
         [JsonPropertyName("isFaulted")]
         public bool IsFaulted { get; set; }
     }
+
+
 }
