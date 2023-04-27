@@ -74,17 +74,21 @@ namespace CarDetailsAPI.Controller
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteManufacturer(int id)
+        public ActionResult<CarDetailsAPI.Models.ManufacturersModel> DeleteManufacturer(int id)
         {
-            var manufacturerToDelete = _dataContext.ManufacturersDb.FirstOrDefault(c => c.Id == id);
-            if (manufacturerToDelete == null)
-            {
-                return NotFound();
-            }
+            //var manufacturerToDelete = _dataContext.ManufacturersDb.FirstOrDefault(c => c.Id == id);
+            //if (manufacturerToDelete == null)
+            //{
+            //    return NotFound();
+            //}
 
-            _dataContext.ManufacturersDb.Remove(manufacturerToDelete);
-            _dataContext.SaveChanges();
-            return NoContent();
+            //_dataContext.ManufacturersDb.Remove(manufacturerToDelete);
+            //_dataContext.SaveChanges();
+            //return NoContent();
+
+            var result = _mediatr.Send(new DeleteManuByIdCommand { Id = id }
+);
+            return Ok();
         }
     }
 }

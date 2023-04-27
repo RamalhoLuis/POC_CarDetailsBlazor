@@ -12,5 +12,8 @@ namespace CarDetailsBlazor.Interfaces
         [Get("/api/cars/{id}")]
         Task<CarResponse> GetCarById(int id);
 
+        [Delete ("/api/cars/{id}")]
+        Task<List<CarDetailsAPI.Models.CarsModel>> DeleteCar(int id);
+
     }
 }

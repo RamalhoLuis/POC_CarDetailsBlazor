@@ -11,5 +11,8 @@ namespace CarDetailsBlazor.Interfaces
 
         [Get("/api/manufacturers/{id}")]
         Task<ManuResponse> GetManufacturerById(int id);
+
+        [Delete("/api/manufacturers/{id}")]
+        Task<List<CarDetailsAPI.Models.ManufacturersModel>> DeleteManufacturer(int id);
     }
 }

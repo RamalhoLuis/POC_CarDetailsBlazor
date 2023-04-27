@@ -83,9 +83,9 @@ namespace CarDetailsAPI.Controller
             //_dataContext.CarsDb.Remove(carToDelete);
             //_dataContext.SaveChanges();
             //return NoContent();
-                        var result = _mediatr.Send(new GetCarByIdQuery(id)
+                        var result = _mediatr.Send(new DeleteCarByIdCommand {Id = id}
             );
-            return Ok(result.Result);
+            return Ok();
         }
 
     }

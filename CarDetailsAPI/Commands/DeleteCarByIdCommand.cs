@@ -7,7 +7,7 @@ namespace CarDetailsAPI.Commands
 {
     public record DeleteCarByIdCommand : IRequest
     {
-        private int Id { get; set; }
+        public int Id { get; set; }
         public class DeleteCarByIdHandler : IRequestHandler<DeleteCarByIdCommand>
         {
 
@@ -28,7 +28,7 @@ namespace CarDetailsAPI.Commands
                         return null;
                     else
                     {
-                    var mapped = _mapper.Map<CarDetailsModels.Car>(request.Id);
+                   
                     _data.CarsDb.Remove(car);
                         _data.SaveChanges();
 

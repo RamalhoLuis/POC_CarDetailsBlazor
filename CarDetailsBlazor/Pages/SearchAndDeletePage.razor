@@ -84,6 +84,12 @@
     <input id="carId" type="text" @bind="newCar.Id" />
     <button type="button" @onclick="() => DeleteCarRecord(newCar.Id)" class="btn btn-danger">Delete</button>
 </div>
+<h3>Delete Manufacturer Record by ID</h3>
+<div>
+    <label for="deleteCar">Insert Car Id:</label>
+    <input id="carId" type="text" @bind="newManufacturer.Id" />
+    <button type="button" @onclick="() => DeleteManuRecord(newManufacturer.Id)" class="btn btn-danger">Delete</button>
+</div>
 @if (carSearched == true)
 {
     <label class="alert alert-success" role="alert">@statusMessage</label>
@@ -100,7 +106,8 @@
     private string statusMessage;
     private bool carSearched = false;
     private bool manuSearched = false;
-    private bool carDeleted = false;
+    private bool carDeleted;
+    private bool manuDeleted;
     private int Id;
 
 
@@ -112,19 +119,7 @@
 
     }
 
-    private async Task DeleteCarRecord(int carId)
-    {
-        var response = await httpClient.DeleteAsync($"https://localhost:7126/api/cars/{carId}");
-        if (response.IsSuccessStatusCode)
-        {
-            carDeleted = true;
-            statusMessage = "Hell yeah! Car Deleted!";
-        }
-        else
-        {
-            statusMessage = "Car Not Found";
-        }
-    }
+
 
     private async Task SearchCarRecord(int id)
     {
@@ -187,9 +182,58 @@
 
             throw;
         }
+    }
 
+    private async Task DeleteCarRecord(int id)
+    {
+        //var response = await httpClient.DeleteAsync($"https://localhost:7126/api/cars/{carId}");
+        //if (response.IsSuccessStatusCode)
+        //{
+        //    carDeleted = true;
+        //    statusMessage = "Hell yeah! Car Deleted!";
+        //}
+        //else
+        //{
+        //    statusMessage = "Car Not Found";
+        //}
+        try
+        {
+            var response = await CarWebServiceAPI.DeleteCar(id);
+            if (response is not null)
+            {
+                carDeleted = true;
+            }
+        }
+        catch (Exception e)
+        {
+            // Handle any errors that occurred during the API call
+        }
 
-
+    }
+    private async Task DeleteManuRecord(int id)
+    {
+        //var response = await httpClient.DeleteAsync($"https://localhost:7126/api/cars/{carId}");
+        //if (response.IsSuccessStatusCode)
+        //{
+        //    carDeleted = true;
+        //    statusMessage = "Hell yeah! Car Deleted!";
+        //}
+        //else
+        //{
+        //    statusMessage = "Car Not Found";
+        //}
+        try
+        {
+            var response = await ManufacturerWebServiceAPI.DeleteManufacturer(id);
+            if (response is not null)
+            {
+                manuDeleted = true;
+            }
+        }
+        catch (Exception e)
+        {
+            // Handle any errors that occurred during the API call
+        }
 
 
 
