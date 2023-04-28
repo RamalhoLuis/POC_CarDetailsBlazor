@@ -36,7 +36,7 @@ namespace CarDetailsAPI.Controller
 
 
         [HttpPost]
-        public async Task<ActionResult<CarDetailsAPI.Models.ManufacturersModel>> CreateManufacturer([FromBody] CarDetailsAPI.Models.ManufacturersModel value)
+        public ActionResult<CarDetailsAPI.Models.ManufacturersModel> CreateManufacturer([FromBody] CarDetailsAPI.Models.ManufacturersModel value)
         {
             //if (_dataContext.ManufacturersDb.Any(m => m.Name == manufacturer.Name && m.Headquarters == manufacturer.Headquarters && m.Year == manufacturer.Year))
             //{
@@ -46,11 +46,11 @@ namespace CarDetailsAPI.Controller
             //_dataContext.SaveChanges();
             //return Ok();
             //return Ok();
-            var result = await _mediatr.Send(new InsertManufacturerCommand
+            var result = _mediatr.Send(new InsertManufacturerCommand
             {
                 Manufacturer = value
             });
-            return Ok(result);
+            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -89,6 +89,18 @@ namespace CarDetailsAPI.Controller
             var result = _mediatr.Send(new DeleteManuByIdCommand { Id = id }
 );
             return Ok();
+        }
+
+        [HttpPut]
+        public ActionResult<CarDetailsAPI.Models.ManufacturersModel> UpdateCar([FromBody] CarDetailsAPI.Models.ManufacturersModel value)
+        {
+            var result = _mediatr.Send(new UpdateManufacturerByIdCommand
+            {
+                Manufacturer = value
+            }); ;
+            return Ok();
+
+
         }
     }
 }

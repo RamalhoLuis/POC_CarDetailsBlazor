@@ -6,6 +6,7 @@
 @using Microsoft.AspNetCore.Mvc;
 @inject ICarWebServiceAPI CarWebServiceAPI
 @inject IManufacturerWebServiceAPI ManufacturerWebServiceAPI
+@inject NavigationManager NavigationManager
 
 
 <h3>Search And Delete</h3>
@@ -47,6 +48,9 @@
             </tr>
         </tbody>
     </table>
+    <div>
+        <button type="button" @onclick="@(() => NavigationManager.NavigateTo($"/editCars/{Id}"))" class="btn btn-primary">Edit Car Record</button>
+    </div>
 }
 
 <h3>Search Manufacturer Record by ID</h3>
@@ -55,9 +59,9 @@
     <input id="carId" type="text" @bind="Id" />
     <button type="button" @onclick="() => SearchManufacturerRecord(Id)" class="btn btn-primary">Search</button>
 </div>
-@if (carSearched == true)
+@if (manuSearched == true)
 {
-    <h4>Car Record Found:</h4>
+    <h4>Manufacturer Record Found:</h4>
     <table class="table table-striped table-hover w-auto">
         <thead>
             <tr>
@@ -100,6 +104,7 @@
 }
 
 @code {
+  
     private CarDetailsAPI.Models.CarsModel newCar = new();
     private CarDetailsAPI.Models.ManufacturersModel newManufacturer = new();
     private HttpClient httpClient;
@@ -137,7 +142,7 @@
         try
         {
             var response = await CarWebServiceAPI.GetCarById(id);
-            if(response.Car is not null)
+            if (response.Car is not null)
             {
                 carSearched = true;
                 newCar = response.Car;
@@ -198,11 +203,8 @@
         //}
         try
         {
-            var response = await CarWebServiceAPI.DeleteCar(id);
-            if (response is not null)
-            {
-                carDeleted = true;
-            }
+            await CarWebServiceAPI.DeleteCar(id);
+
         }
         catch (Exception e)
         {

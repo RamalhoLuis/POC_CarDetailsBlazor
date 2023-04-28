@@ -14,5 +14,11 @@ namespace CarDetailsBlazor.Interfaces
 
         [Delete("/api/manufacturers/{id}")]
         Task<List<CarDetailsAPI.Models.ManufacturersModel>> DeleteManufacturer(int id);
+
+        [Post("/api/manufacturers")]
+        Task CreateManufacturer(CarDetailsAPI.Models.ManufacturersModel manufacturer);
+
+        [Put("/api/manufacturers")]
+        Task UpdateManufacturer(CarDetailsAPI.Models.ManufacturersModel manufacturer);
     }
 }

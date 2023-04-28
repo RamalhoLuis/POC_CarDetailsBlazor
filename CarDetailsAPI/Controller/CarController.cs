@@ -36,7 +36,7 @@ namespace CarDetailsAPI.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<CarDetailsAPI.Models.CarsModel>> CreateCar([FromBody] CarDetailsAPI.Models.CarsModel value)
+        public ActionResult<CarDetailsAPI.Models.CarsModel> CreateCar([FromBody] CarDetailsAPI.Models.CarsModel value)
         {
             //if (_dataContext.CarsDb.Any(m => m.Year == car.Year && m.Manufacturer == car.Manufacturer && m.Name == car.Name && m.Displacement == car.Displacement && m.Cylinders == car.Cylinders && m.City == car.City && m.Highway == car.Highway && m.Combined == car.Combined))
             //{
@@ -45,11 +45,11 @@ namespace CarDetailsAPI.Controller
             //_dataContext.CarsDb.Add(car);
             //_dataContext.SaveChanges();
             //return Ok();
-            var result = await _mediatr.Send(new InsertCarCommand
+             var result = _mediatr.Send(new InsertCarCommand
             {
                 Car = value
             });
-            return Ok(result);
+            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -86,6 +86,18 @@ namespace CarDetailsAPI.Controller
                         var result = _mediatr.Send(new DeleteCarByIdCommand {Id = id}
             );
             return Ok();
+        }
+
+        [HttpPut]
+        public ActionResult UpdateCar([FromBody] CarDetailsAPI.Models.CarsModel value)
+        {
+            var result = _mediatr.Send(new UpdateCarByIdCommand
+            {
+                Car = value
+            }); 
+            return Ok();
+
+
         }
 
     }

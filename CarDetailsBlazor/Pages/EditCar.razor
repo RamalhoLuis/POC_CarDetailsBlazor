@@ -1,4 +1,4 @@
-﻿@page "/addcar"
+﻿@page "/editCars/{Id:int}"
 @using CarDetailsBlazor.Interfaces;
 @using CarDetailsModels;
 @using CarDetailsBlazor;
@@ -13,22 +13,11 @@
 @inject IManufacturerWebServiceAPI ManufacturerWebServiceAPI
 
 
-<h3>Add New Car</h3>
+<h3>EditCar</h3>
+<EditForm Model="newCar" OnValidSubmit="EditCarAndManufacturer">
 
 <div class="container-fluid mb-3">
 
-    <div class="mb-2">
-        <label for="manufacturerName">Manufacturer Name:</label>
-        <input id="manufacturerName" type="text" @bind="newManufacturer.MappedName" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="manufacturerHQ">Manufacturer Headquarters:</label>
-        <input id="manufacturerHQ" type="text" @bind="newManufacturer.MappedHeadquarters" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="manufacturerYear">Manufacturer Year:</label>
-        <input id="manufacturerYear" type="text" @bind="newManufacturer.MappedYear" placeholder="Insert value.." />
-    </div>
     <div class="mb-2">
         <label for="carYear">Car Year:</label>
         <input id="carYear" type="text" @bind="newCar.MappedYear" placeholder="Insert value.." />
@@ -61,15 +50,15 @@
         <label for="carCombined">Car Combined Fuel Efficiency:</label>
         <input id="carCombined" type="text" @bind="newCar.MappedCombined" placeholder="Insert value.." />
     </div>
-    <button type="submit" @onclick="AddCarAndManufacturer" class="btn btn-success">Add New Car</button>
+    <button type="submit" @onclick="EditCarAndManufacturer" class="btn btn-success">Edit Car</button>
 
 </div>
-<label class="alert alert-success" role="alert">@statusMessage</label>
-
-
-
+</EditForm>
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
+
     private Car newCar = new Car();
     private Manufacturer newManufacturer = new Manufacturer();
     private HttpClient httpClient;
@@ -78,42 +67,37 @@
 
     protected override async Task OnInitializedAsync()
     {
-        httpClient = new HttpClient();
-    }
-
-    private async Task AddCarAndManufacturer()
-    {
-        //var response = await _mediatr.Send(new InsertCarCommand { Car = newCar });
-        ////await _mediatr.send(new InsertManufacturerCommand { Manufacturer = newManufacturer });
-        ////await httpClient.PostAsJsonAsync<Manufacturer>("https://localhost:7126/api/manufacturers", newManufacturer);
-        ////var response = await httpClient.PostAsJsonAsync<Car>("https://localhost:7126/api/cars", newCar);
-        //if (response != null)
-        //{
-        //    statusMessage += " New Car added successfully!";
-        //}
-        //else
-        //{
-        //    statusMessage += " Failed to add new Car.";
-        //}
-        //newCar = new Car();
-        //newManufacturer = new Manufacturer();
-
         try
         {
-            await CarWebServiceAPI.CreateCar(newCar);
-            await ManufacturerWebServiceAPI.CreateManufacturer(newManufacturer);
-            //if (response == true)
-            //{
-            //    statusMessage += " New Car added successfully!";
-            //}
-            //else
-            //{
-            //    statusMessage += " Failed to add new Car.";
-            //}
+            var response = await CarWebServiceAPI.GetCarById(Id);
+            if (response.Car is not null)
+            {
+                newCar = response.Car;
+            }
+
         }
         catch (Exception e)
         {
-                statusMessage += " Failed to add new Car.";
+
+            throw;
         }
     }
+
+    private async Task EditCarAndManufacturer()
+    {
+        try
+        {
+            await CarWebServiceAPI.UpdateCar(newCar);
+            await ManufacturerWebServiceAPI.UpdateManufacturer(newManufacturer);
+
+            statusMessage = "Car and manufacturer details updated successfully.";
+
+        }
+        catch (Exception e)
+        {
+            statusMessage = "Failed to update car and manufacturer details.";
+        }
+        
+    }
+
 }
