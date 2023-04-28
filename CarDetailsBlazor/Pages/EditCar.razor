@@ -50,7 +50,7 @@
         <label for="carCombined">Car Combined Fuel Efficiency:</label>
         <input id="carCombined" type="text" @bind="newCar.MappedCombined" placeholder="Insert value.." />
     </div>
-    <button type="submit" @onclick="EditCarAndManufacturer" class="btn btn-success">Edit Car</button>
+    <button type="submit" @onclick="EditCarAndManufacturer" class="btn btn-success">Save</button>
 
 </div>
 </EditForm>
@@ -88,7 +88,7 @@
         try
         {
             await CarWebServiceAPI.UpdateCar(newCar);
-            await ManufacturerWebServiceAPI.UpdateManufacturer(newManufacturer);
+
 
             statusMessage = "Car and manufacturer details updated successfully.";
 

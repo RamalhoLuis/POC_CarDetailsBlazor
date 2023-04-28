@@ -36,7 +36,7 @@ namespace CarDetailsAPI.Commands
                     manufacturer.Year = (int)request.Manufacturer.MappedYear;
 
 
-                    ;
+                    
                     _data.ManufacturersDb.Update(manufacturer);
                     _data.SaveChanges();
 
