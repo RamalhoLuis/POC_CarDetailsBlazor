@@ -92,7 +92,7 @@ namespace CarDetailsAPI.Controller
         }
 
         [HttpPut]
-        public ActionResult<CarDetailsAPI.Models.ManufacturersModel> UpdateCar([FromBody] CarDetailsAPI.Models.ManufacturersModel value)
+        public ActionResult UpdateManufacturer([FromBody] CarDetailsAPI.Models.ManufacturersModel value)
         {
             var result = _mediatr.Send(new UpdateManufacturerByIdCommand
             {

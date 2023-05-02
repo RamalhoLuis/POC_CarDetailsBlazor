@@ -1,0 +1,98 @@
+﻿@page "/editManufacturer/{Id:int}"
+@using CarDetailsBlazor.Interfaces;
+@using CarDetailsModels;
+@using CarDetailsBlazor;
+@using System.Net.Http.Json;
+@using System.Net.Http;
+@using Microsoft.AspNetCore.Mvc;
+@using System.Text.Json;
+@inject NavigationManager NavigationManager
+@inject IMediator _mediatr
+@using Manufacturer = CarDetailsAPI.Models.ManufacturersModel;
+@using Car = CarDetailsAPI.Models.CarsModel;
+@inject ICarWebServiceAPI CarWebServiceAPI
+@inject IManufacturerWebServiceAPI ManufacturerWebServiceAPI
+
+
+<h3>EditCar</h3>
+<EditForm Model="newManufacturer" OnValidSubmit="EditManuValue">
+
+    <div class="container-fluid mb-3">
+        <div class="mb-2">
+            <label for="carName">Manufacturer Name:</label>
+            <input id="carName" type="text" @bind="newManufacturer.MappedName" placeholder="Insert value.." />
+        </div>
+        <div class="mb-2">
+            <label for="carManufacturer">Manufacturer Headquarters:</label>
+            <input id="carManufacturer" type="text" @bind="newManufacturer.MappedHeadquarters" placeholder="Insert value.." />
+        </div>
+        <div class="mb-2">
+            <label for="carYear">Manufacturer Year:</label>
+            <input id="carYear" type="text" @bind="newManufacturer.MappedYear" placeholder="Insert value.." />
+        </div>
+
+        <button type="submit" @onclick="EditManuValue" class="btn btn-success">Save</button>
+
+    </div>
+</EditForm>
+@if (manuEdited == true)
+{
+    <label class="alert alert-success @(string.IsNullOrEmpty(statusMessage) ? "d-none" : "")" role="alert">@statusMessage</label>
+
+    <button type="submit" @onclick="EditManuValue" class="btn btn-success" disabled="@string.IsNullOrEmpty(statusMessage)">Save</button>
+
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Car newCar = new Car();
+    private Manufacturer newManufacturer = new Manufacturer();
+    private HttpClient httpClient;
+    private string statusMessage;
+    private bool manuEdited = false;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await ManufacturerWebServiceAPI.GetManufacturerById(Id);
+            if (response.Manufacturer is not null)
+            {
+                newManufacturer = response.Manufacturer;
+                manuEdited = true;
+            }
+
+        }
+        catch (Exception e)
+        {
+
+            throw;
+        }
+    }
+
+    private async Task EditManuValue()
+    {
+        try
+        {
+            await ManufacturerWebServiceAPI.UpdateManufacturer(newManufacturer);
+
+
+            statusMessage = "Car and manufacturer details updated successfully.";
+
+
+
+
+
+        }
+        catch (Exception e)
+        {
+            statusMessage = "Failed to update car and manufacturer details.";
+        }
+
+    }
+
+}
+

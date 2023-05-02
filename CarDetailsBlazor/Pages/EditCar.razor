@@ -6,6 +6,7 @@
 @using System.Net.Http;
 @using Microsoft.AspNetCore.Mvc;
 @using System.Text.Json;
+@inject NavigationManager NavigationManager
 @inject IMediator _mediatr
 @using Manufacturer = CarDetailsAPI.Models.ManufacturersModel;
 @using Car = CarDetailsAPI.Models.CarsModel;
@@ -14,7 +15,7 @@
 
 
 <h3>EditCar</h3>
-<EditForm Model="newCar" OnValidSubmit="EditCarAndManufacturer">
+<EditForm Model="newCar" OnValidSubmit="EditCarValue">
 
 <div class="container-fluid mb-3">
 
@@ -50,7 +51,7 @@
         <label for="carCombined">Car Combined Fuel Efficiency:</label>
         <input id="carCombined" type="text" @bind="newCar.MappedCombined" placeholder="Insert value.." />
     </div>
-    <button type="submit" @onclick="EditCarAndManufacturer" class="btn btn-success">Save</button>
+        <button type="submit" @onclick="EditCarValue" class="btn btn-success">Save</button>
 
 </div>
 </EditForm>
@@ -83,7 +84,7 @@
         }
     }
 
-    private async Task EditCarAndManufacturer()
+    private async Task EditCarValue()
     {
         try
         {
@@ -91,6 +92,8 @@
 
 
             statusMessage = "Car and manufacturer details updated successfully.";
+
+            NavigationManager.NavigateTo("/searchdeletecar");
 
         }
         catch (Exception e)

@@ -52,6 +52,10 @@
         <button type="button" @onclick="@(() => NavigationManager.NavigateTo($"/editCars/{Id}"))" class="btn btn-primary">Edit Car Record</button>
     </div>
 }
+@if (carSearched == true)
+{
+    <label class="alert alert-success" role="alert">@statusMessage</label>
+}
 
 <h3>Search Manufacturer Record by ID</h3>
 <div>
@@ -80,6 +84,13 @@
             </tr>
         </tbody>
     </table>
+    <div>
+        <button type="button" @onclick="@(() => NavigationManager.NavigateTo($"/editManufacturer/{Id}"))" class="btn btn-primary">Edit Manufacturer Record</button>
+    </div>
+}
+@if (manuSearched == true)
+{
+    <label class="alert alert-success" role="alert">@statusMessage</label>
 }
 
 <h3>Delete Car Record by ID</h3>
@@ -94,17 +105,14 @@
     <input id="carId" type="text" @bind="newManufacturer.Id" />
     <button type="button" @onclick="() => DeleteManuRecord(newManufacturer.Id)" class="btn btn-danger">Delete</button>
 </div>
-@if (carSearched == true)
-{
-    <label class="alert alert-success" role="alert">@statusMessage</label>
-}
+
 @if (carDeleted == true)
 {
     <label class="alert alert-danger" role="alert">@statusMessage</label>
 }
 
 @code {
-  
+
     private CarDetailsAPI.Models.CarsModel newCar = new();
     private CarDetailsAPI.Models.ManufacturersModel newManufacturer = new();
     private HttpClient httpClient;
@@ -146,6 +154,12 @@
             {
                 carSearched = true;
                 newCar = response.Car;
+                statusMessage = "Hell yeah! Car Found!";
+
+            }
+            else
+            {
+                statusMessage = "Ooops!Car ID not Found!";
             }
 
         }
@@ -179,7 +193,12 @@
 
                 manuSearched = true;
                 newManufacturer = response.Manufacturer;
+                statusMessage = "Hell yeah! Manufacturer Found!";
 
+            }
+            else
+            {
+                statusMessage = "Ooops!Manufacturer ID not Found!";
             }
         }
         catch (Exception e)
@@ -204,6 +223,7 @@
         try
         {
             await CarWebServiceAPI.DeleteCar(id);
+            statusMessage = "Hell yeah! Car Deleted!";
 
         }
         catch (Exception e)
@@ -230,6 +250,7 @@
             if (response is not null)
             {
                 manuDeleted = true;
+                statusMessage = "Hell yeah! Manufacturer Deleted!";
             }
         }
         catch (Exception e)

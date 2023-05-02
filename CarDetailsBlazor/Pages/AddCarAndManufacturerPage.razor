@@ -102,18 +102,13 @@
         {
             await CarWebServiceAPI.CreateCar(newCar);
             await ManufacturerWebServiceAPI.CreateManufacturer(newManufacturer);
-            //if (response == true)
-            //{
-            //    statusMessage += " New Car added successfully!";
-            //}
-            //else
-            //{
-            //    statusMessage += " Failed to add new Car.";
-            //}
+
+            statusMessage += " New Car added successfully!";
+
         }
         catch (Exception e)
         {
-                statusMessage += " Failed to add new Car.";
+            statusMessage += " Failed to add new Car.";
         }
     }
 }
