@@ -29,6 +29,10 @@
         <label for="manufacturerYear">Manufacturer Year:</label>
         <input id="manufacturerYear" type="text" @bind="newManufacturer.MappedYear" placeholder="Insert value.." />
     </div>
+    <button type="submit" @onclick="AddManufacturer" class="btn btn-success">Add New Manufacturer</button>
+    <label class="alert alert-success @(string.IsNullOrEmpty(statusMessage) ? "d-none" : "")" role="alert">@statusMessage</label>
+
+
     <div class="mb-2">
         <label for="carYear">Car Year:</label>
         <input id="carYear" type="text" @bind="newCar.MappedYear" placeholder="Insert value.." />
@@ -61,10 +65,10 @@
         <label for="carCombined">Car Combined Fuel Efficiency:</label>
         <input id="carCombined" type="text" @bind="newCar.MappedCombined" placeholder="Insert value.." />
     </div>
-    <button type="submit" @onclick="AddCarAndManufacturer" class="btn btn-success">Add New Car</button>
+    <button type="submit" @onclick="AddCar" class="btn btn-success">Add New Car</button>
 
 </div>
-<label class="alert alert-success" role="alert">@statusMessage</label>
+<label class="alert alert-success @(string.IsNullOrEmpty(statusMessage) ? "d-none" : "")" role="alert">@statusMessage</label>
 
 
 
@@ -81,29 +85,28 @@
         httpClient = new HttpClient();
     }
 
-    private async Task AddCarAndManufacturer()
+    private async Task AddCar()
     {
-        //var response = await _mediatr.Send(new InsertCarCommand { Car = newCar });
-        ////await _mediatr.send(new InsertManufacturerCommand { Manufacturer = newManufacturer });
-        ////await httpClient.PostAsJsonAsync<Manufacturer>("https://localhost:7126/api/manufacturers", newManufacturer);
-        ////var response = await httpClient.PostAsJsonAsync<Car>("https://localhost:7126/api/cars", newCar);
-        //if (response != null)
-        //{
-        //    statusMessage += " New Car added successfully!";
-        //}
-        //else
-        //{
-        //    statusMessage += " Failed to add new Car.";
-        //}
-        //newCar = new Car();
-        //newManufacturer = new Manufacturer();
-
         try
         {
             await CarWebServiceAPI.CreateCar(newCar);
-            await ManufacturerWebServiceAPI.CreateManufacturer(newManufacturer);
 
             statusMessage += " New Car added successfully!";
+
+        }
+        catch (Exception e)
+        {
+            statusMessage += " Failed to add new Car.";
+        }
+    }
+
+    private async Task AddManufacturer()
+    {
+        try
+        {
+            await ManufacturerWebServiceAPI.CreateManufacturer(newManufacturer);
+
+            statusMessage += " New Manufacturer added successfully!";
 
         }
         catch (Exception e)

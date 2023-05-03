@@ -30,12 +30,9 @@ namespace CarDetailsAPI.Commands
                     return null;
                 else
                 {
-
                     manufacturer.Name = request.Manufacturer.MappedName;
                     manufacturer.Headquarters = request.Manufacturer.MappedHeadquarters;
                     manufacturer.Year = (int)request.Manufacturer.MappedYear;
-
-
                     
                     _data.ManufacturersDb.Update(manufacturer);
                     _data.SaveChanges();

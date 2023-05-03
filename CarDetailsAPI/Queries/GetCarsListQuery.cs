@@ -1,5 +1,4 @@
 ﻿using CarDetailsDataAccess.Data;
-using CarDetailsModels;
 using Car = CarDetailsAPI.Models.CarsModel;
 using MediatR;
 using AutoMapper;
@@ -18,7 +17,6 @@ namespace CarDetailsAPI.Queries
             {
                 _carData = carData;
                 _mapper = mapper;
-
             }
             public Task<List<Car>> Handle(GetCarsListQuery request, CancellationToken cancellationToken)
             {

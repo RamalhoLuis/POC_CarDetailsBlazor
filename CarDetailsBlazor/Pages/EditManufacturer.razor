@@ -38,9 +38,6 @@
 @if (manuEdited == true)
 {
     <label class="alert alert-success @(string.IsNullOrEmpty(statusMessage) ? "d-none" : "")" role="alert">@statusMessage</label>
-
-    <button type="submit" @onclick="EditManuValue" class="btn btn-success" disabled="@string.IsNullOrEmpty(statusMessage)">Save</button>
-
 }
 
 @code {
@@ -80,7 +77,7 @@
             await ManufacturerWebServiceAPI.UpdateManufacturer(newManufacturer);
 
 
-            statusMessage = "Car and manufacturer details updated successfully.";
+            statusMessage = "Manufacturer details updated successfully.";
 
 
 
@@ -89,7 +86,7 @@
         }
         catch (Exception e)
         {
-            statusMessage = "Failed to update car and manufacturer details.";
+            statusMessage = "Failed to update manufacturer details.";
         }
 
     }

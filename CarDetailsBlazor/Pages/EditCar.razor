@@ -55,6 +55,10 @@
 
 </div>
 </EditForm>
+@if (carEdited == true)
+{
+    <label class="alert alert-success @(string.IsNullOrEmpty(statusMessage) ? "d-none" : "")" role="alert">@statusMessage</label>
+}
 
 @code {
     [Parameter]
@@ -64,6 +68,8 @@
     private Manufacturer newManufacturer = new Manufacturer();
     private HttpClient httpClient;
     private string statusMessage;
+    private bool carEdited = false;
+
 
 
     protected override async Task OnInitializedAsync()
@@ -74,6 +80,7 @@
             if (response.Car is not null)
             {
                 newCar = response.Car;
+                carEdited = true;
             }
 
         }
@@ -91,14 +98,13 @@
             await CarWebServiceAPI.UpdateCar(newCar);
 
 
-            statusMessage = "Car and manufacturer details updated successfully.";
+            statusMessage = "Car details updated successfully.";
 
-            NavigationManager.NavigateTo("/searchdeletecar");
 
         }
         catch (Exception e)
         {
-            statusMessage = "Failed to update car and manufacturer details.";
+            statusMessage = "Failed to update car details.";
         }
         
     }

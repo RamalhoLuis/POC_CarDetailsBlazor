@@ -10,7 +10,6 @@ namespace CarDetailsAPI.Commands
         public int Id { get; set; }
         public class DeleteCarByIdHandler : IRequestHandler<DeleteCarByIdCommand>
         {
-
             private readonly IDataContext _data;
             private readonly IMapper _mapper;
 

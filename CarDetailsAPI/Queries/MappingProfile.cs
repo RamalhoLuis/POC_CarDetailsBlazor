@@ -5,12 +5,8 @@ namespace CarDetailsAPI.Queries
 {
     public class MappingProfile : Profile
     {
-
-
         public MappingProfile()
         {
-
-
             CreateMap<CarDetailsModels.Manufacturer, CarDetailsAPI.Models.ManufacturersModel>()
                 .ForMember(dest => dest.MappedName, dest => dest.MapFrom(src => src.Name))
                 .ForMember(dest => dest.MappedHeadquarters, dest => dest.MapFrom(src => src.Headquarters))
@@ -56,10 +52,6 @@ namespace CarDetailsAPI.Queries
                 .ForMember(dest => dest.MappedCity, dest => dest.MapFrom(src => src.City))
                 .ForMember(dest => dest.MappedHighway, dest => dest.MapFrom(src => src.Highway))
                 .ForMember(dest => dest.MappedCombined, dest => dest.MapFrom(src => src.Combined)).ReverseMap();
-
-
-
-
         }
     }
 }

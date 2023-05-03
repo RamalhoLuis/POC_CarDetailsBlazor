@@ -1,5 +1,4 @@
 ﻿using CarDetailsBlazor.Data;
-using CarDetailsModels;
 using Refit;
 
 namespace CarDetailsBlazor.Interfaces
@@ -20,8 +19,5 @@ namespace CarDetailsBlazor.Interfaces
 
         [Put("/api/cars")]
         Task UpdateCar(CarDetailsAPI.Models.CarsModel car);
-
-
-
     }
 }

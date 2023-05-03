@@ -17,7 +17,6 @@ namespace CarDetailsAPI.Commands
             {
                 _data = data;
                 _mapper = mapper;
-
             }
             public Task Handle(InsertCarCommand request, CancellationToken cancellationToken)
             {

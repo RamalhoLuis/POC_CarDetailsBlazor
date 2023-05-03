@@ -110,43 +110,30 @@
 {
     <label class="alert alert-danger" role="alert">@statusMessage</label>
 }
+@if (manuDeleted == true)
+{
+    <label class="alert alert-danger" role="alert">@statusMessage</label>
+}
 
 @code {
-
     private CarDetailsAPI.Models.CarsModel newCar = new();
     private CarDetailsAPI.Models.ManufacturersModel newManufacturer = new();
     private HttpClient httpClient;
     private string statusMessage;
     private bool carSearched = false;
     private bool manuSearched = false;
-    private bool carDeleted;
-    private bool manuDeleted;
+    private bool carDeleted = false;
+    private bool manuDeleted = false;
     private int Id;
-
-
 
 
     protected override async Task OnInitializedAsync()
     {
         httpClient = new HttpClient();
-
     }
-
-
 
     private async Task SearchCarRecord(int id)
     {
-        //HttpResponseMessage response = await httpClient.GetAsync($"https://localhost:7126/api/cars/{id}");
-        //if (response.IsSuccessStatusCode)
-        //{
-        //    statusMessage = "Hell yeah! Car Found!";
-        //    newCar = (Car)await response.Content.ReadFromJsonAsync<Car>();
-        //    carSearched = true;
-        //}
-        //else
-        //{
-        //    statusMessage = "Car Not Found";
-        //}
         try
         {
             var response = await CarWebServiceAPI.GetCarById(id);
@@ -168,23 +155,10 @@
 
             throw;
         }
-
-
-
     }
+
     private async Task SearchManufacturerRecord(int id)
     {
-        //HttpResponseMessage response = await httpClient.GetAsync($"https://localhost:7126/api/cars/{id}");
-        //if (response.IsSuccessStatusCode)
-        //{
-        //    statusMessage = "Hell yeah! Car Found!";
-        //    newCar = (Car)await response.Content.ReadFromJsonAsync<Car>();
-        //    carSearched = true;
-        //}
-        //else
-        //{
-        //    statusMessage = "Car Not Found";
-        //}
         try
         {
             var response = await ManufacturerWebServiceAPI.GetManufacturerById(id);
@@ -210,57 +184,33 @@
 
     private async Task DeleteCarRecord(int id)
     {
-        //var response = await httpClient.DeleteAsync($"https://localhost:7126/api/cars/{carId}");
-        //if (response.IsSuccessStatusCode)
-        //{
-        //    carDeleted = true;
-        //    statusMessage = "Hell yeah! Car Deleted!";
-        //}
-        //else
-        //{
-        //    statusMessage = "Car Not Found";
-        //}
         try
         {
             await CarWebServiceAPI.DeleteCar(id);
+            carDeleted = true;
             statusMessage = "Hell yeah! Car Deleted!";
 
         }
         catch (Exception e)
         {
-            // Handle any errors that occurred during the API call
+
         }
 
     }
+
     private async Task DeleteManuRecord(int id)
     {
-        //var response = await httpClient.DeleteAsync($"https://localhost:7126/api/cars/{carId}");
-        //if (response.IsSuccessStatusCode)
-        //{
-        //    carDeleted = true;
-        //    statusMessage = "Hell yeah! Car Deleted!";
-        //}
-        //else
-        //{
-        //    statusMessage = "Car Not Found";
-        //}
         try
         {
-            var response = await ManufacturerWebServiceAPI.DeleteManufacturer(id);
-            if (response is not null)
-            {
-                manuDeleted = true;
-                statusMessage = "Hell yeah! Manufacturer Deleted!";
-            }
+            await ManufacturerWebServiceAPI.DeleteManufacturer(id);
+            manuDeleted = true;
+            statusMessage = "Hell yeah! Manufacturer Deleted!";
+
         }
         catch (Exception e)
         {
-            // Handle any errors that occurred during the API call
+
         }
-
-
-
-
     }
 
 }

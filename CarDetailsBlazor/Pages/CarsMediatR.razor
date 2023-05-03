@@ -54,10 +54,7 @@
     protected override async Task OnInitializedAsync()
     {
         var response = await CarWebServiceAPI.GetCars();
-        //manufacturers.AddRange(_manufacturers) = (List<CarDetailsAPI.Models.Manufacturer>)(_manufacturers).ToList();
         cars = response.ToList();
-        //cars = await CarWebServiceAPI.GetCars();
-
     }
 
 }

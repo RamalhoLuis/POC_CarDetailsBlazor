@@ -18,8 +18,6 @@ namespace CarDetailsAPI.Commands
             {
                 _data = data;
                 _mapper = mapper;
-
-
             }
             public async Task<Manufacturer> Handle(InsertManufacturerCommand request, CancellationToken cancellationToken)
             {

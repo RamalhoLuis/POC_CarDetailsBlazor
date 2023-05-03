@@ -27,7 +27,6 @@ namespace CarDetailsAPI.Queries
                 _mediator = mediator;
                 _dataContext = dataContext;
                 _mapper = mapper;
-
             }
 
 

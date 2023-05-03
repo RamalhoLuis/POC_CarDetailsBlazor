@@ -24,10 +24,6 @@ namespace CarDetailsAPI.Controller
         [HttpGet]
         public async Task<ActionResult<List<CarDetailsAPI.Models.ManufacturersModel>>> GetManufacturersAsync()
         {
-            //ManuDataStore manuData = new ManuDataStore(@"..\CarDetailsDataAccess\manufacturers.csv");
-            //return Ok(manuData.manufacturers);
-            //List<Manufacturer> query = _dataContext.ManufacturersDb.ToList();
-            //return Ok(query);
             var result = await _mediatr.Send(
                 new GetManufacturersListQuery()
                 );
@@ -38,14 +34,6 @@ namespace CarDetailsAPI.Controller
         [HttpPost]
         public ActionResult<CarDetailsAPI.Models.ManufacturersModel> CreateManufacturer([FromBody] CarDetailsAPI.Models.ManufacturersModel value)
         {
-            //if (_dataContext.ManufacturersDb.Any(m => m.Name == manufacturer.Name && m.Headquarters == manufacturer.Headquarters && m.Year == manufacturer.Year))
-            //{
-            //    return Ok();
-            //}
-            //_dataContext.ManufacturersDb.Add(manufacturer);
-            //_dataContext.SaveChanges();
-            //return Ok();
-            //return Ok();
             var result = _mediatr.Send(new InsertManufacturerCommand
             {
                 Manufacturer = value
@@ -56,13 +44,6 @@ namespace CarDetailsAPI.Controller
         [HttpGet("{id}")]
         public ActionResult<CarDetailsAPI.Models.ManufacturersModel> GetManufacturerId(int id)
         {
-            //var carToSearch = _dataContext.CarsDb.FirstOrDefault(c => c.Id == id);
-            //if (carToSearch == null)
-            //{
-            //    return NotFound();
-            //}
-            //return Ok(carToSearch);
-
             var result = _mediatr.Send(
             new GetManufacturerByIdQuery(id)
             );
@@ -76,16 +57,6 @@ namespace CarDetailsAPI.Controller
         [HttpDelete("{id}")]
         public ActionResult<CarDetailsAPI.Models.ManufacturersModel> DeleteManufacturer(int id)
         {
-            //var manufacturerToDelete = _dataContext.ManufacturersDb.FirstOrDefault(c => c.Id == id);
-            //if (manufacturerToDelete == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //_dataContext.ManufacturersDb.Remove(manufacturerToDelete);
-            //_dataContext.SaveChanges();
-            //return NoContent();
-
             var result = _mediatr.Send(new DeleteManuByIdCommand { Id = id }
 );
             return Ok();
@@ -99,8 +70,6 @@ namespace CarDetailsAPI.Controller
                 Manufacturer = value
             }); ;
             return Ok();
-
-
         }
     }
 }
