@@ -17,6 +17,7 @@ namespace CarDetailsAPI.Queries
 
         public class GetManufacturerByIdHandler : IRequestHandler<GetManufacturerByIdQuery, Manufacturer>
         {
+            private readonly IMediator _mediator;
             private readonly IDataContext _dataContext;
             private readonly IMapper _mapper;
             public GetManufacturerByIdHandler(IMediator mediator, IDataContext dataContext, IMapper mapper)
