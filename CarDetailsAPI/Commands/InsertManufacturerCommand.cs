@@ -21,7 +21,6 @@ namespace CarDetailsAPI.Commands
             }
             public async Task<Manufacturer> Handle(InsertManufacturerCommand request, CancellationToken cancellationToken)
             {
-               //var manufacturer = await _data.ManufacturersDb.FindAsync(request.Manufacturer);
                 if (request.Manufacturer != null)
                 {
                     var mapped = _mapper.Map<CarDetailsModels.Manufacturer>(request.Manufacturer);

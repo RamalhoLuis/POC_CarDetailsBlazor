@@ -37,7 +37,7 @@ namespace CarDetailsAPI.Commands
                     car.Displacement = (int)request.Car.MappedDisplacement;
                     car.Cylinders = (int)request.Car.MappedCylinders;
                     car.City = (int)request.Car.MappedCity;
-                    car.Highway = (int)request.Car.MappedYear;
+                    car.Highway = (int)request.Car.MappedHighway;
                     car.Combined = (int)request.Car.MappedCombined;
 ;
                     _data.CarsDb.Update(car);

@@ -1,4 +1,5 @@
 ﻿using CarDetailsModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarDetailsAPI.Models
 {
@@ -13,6 +14,9 @@ namespace CarDetailsAPI.Models
         public int? MappedCity { get; set; }
         public int? MappedHighway { get; set; }
         public int? MappedCombined { get; set; }
+
+        [Required]
+        public int MappedManufacturerId { get; set; }
 
     }
 }

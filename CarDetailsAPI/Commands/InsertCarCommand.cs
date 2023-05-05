@@ -25,6 +25,7 @@ namespace CarDetailsAPI.Commands
                     var mapped = _mapper.Map<CarDetailsModels.Car>(request.Car);
                     _data.CarsDb.Add(mapped);
                     _data.SaveChangesAsync(cancellationToken);
+
                 }
 
                 return Task.FromResult(request.Car.Id);

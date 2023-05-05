@@ -20,7 +20,8 @@ namespace CarDetailsAPI.Queries
                 .ForMember(dest => dest.MappedCylinders, dest => dest.MapFrom(src => src.Cylinders))
                 .ForMember(dest => dest.MappedCity, dest => dest.MapFrom(src => src.City))
                 .ForMember(dest => dest.MappedHighway, dest => dest.MapFrom(src => src.Highway))
-                .ForMember(dest => dest.MappedCombined, dest => dest.MapFrom(src => src.Combined));
+                .ForMember(dest => dest.MappedCombined, dest => dest.MapFrom(src => src.Combined))
+                .ForMember(dest => dest.MappedManufacturerId, dest => dest.MapFrom(src => src.ManufacturerId));
 
 
             //CreateMap<CarDetailsAPI.Models.ManufacturersModel, CarDetailsModels.Manufacturer>()
@@ -51,7 +52,8 @@ namespace CarDetailsAPI.Queries
                 .ForMember(dest => dest.MappedCylinders, dest => dest.MapFrom(src => src.Cylinders))
                 .ForMember(dest => dest.MappedCity, dest => dest.MapFrom(src => src.City))
                 .ForMember(dest => dest.MappedHighway, dest => dest.MapFrom(src => src.Highway))
-                .ForMember(dest => dest.MappedCombined, dest => dest.MapFrom(src => src.Combined)).ReverseMap();
+                .ForMember(dest => dest.MappedCombined, dest => dest.MapFrom(src => src.Combined))
+                .ForMember(dest => dest.MappedManufacturerId, dest => dest.MapFrom(src => src.ManufacturerId)).ReverseMap();
         }
     }
 }

@@ -32,40 +32,51 @@
     <button type="submit" @onclick="AddManufacturer" class="btn btn-success">Add New Manufacturer</button>
     <label class="alert alert-success @(string.IsNullOrEmpty(statusMessage) ? "d-none" : "")" role="alert">@statusMessage</label>
 
+    <EditForm Model="newCar" OnValidSubmit="AddCar">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary />
 
-    <div class="mb-2">
-        <label for="carYear">Car Year:</label>
-        <input id="carYear" type="text" @bind="newCar.MappedYear" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="carManufacturer">Car Manufacturer:</label>
-        <input id="carManufacturer" type="text" @bind="newCar.MappedManufacturer" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="carName">Car Name:</label>
-        <input id="carName" type="text" @bind="newCar.MappedName" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="carDisplacement">Car Displacement:</label>
-        <input id="carDisplacement" type="number" step="0.1" @bind="newCar.MappedDisplacement" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="carCylinders">Car Cylinders:</label>
-        <input id="carCylinders" type="number" @bind="newCar.MappedCylinders" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="carCity">Car City Fuel Efficiency:</label>
-        <input id="carCity" type="text" @bind="newCar.MappedCity" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="carHighway">Car Highway Fuel Efficiency:</label>
-        <input id="carHighway" type="text" @bind="newCar.MappedHighway" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="carCombined">Car Combined Fuel Efficiency:</label>
-        <input id="carCombined" type="text" @bind="newCar.MappedCombined" placeholder="Insert value.." />
-    </div>
-    <button type="submit" @onclick="AddCar" class="btn btn-success">Add New Car</button>
+        <div class="mb-2">
+            <label for="carYear">Car Year:</label>
+            <input id="carYear" type="text" @bind="newCar.MappedYear" placeholder="Insert value.." />
+        </div>
+
+        <div class="mb-2">
+            <select class="form-control w-20" @onchange="OnChangeEvent">
+                <option value="0">Select Manufacturer</option>
+                @foreach (var manu in manufacturers)
+                {
+                    <option value="@manu.Id">@manu.MappedName</option>
+                }
+            </select>
+            <ValidationMessage For="() => newCar.MappedManufacturerId" />
+        </div>
+        <div class="mb-2">
+            <label for="carName">Car Name:</label>
+            <input id="carName" type="text" @bind="newCar.MappedName" placeholder="Insert value.." />
+        </div>
+        <div class="mb-2">
+            <label for="carDisplacement">Car Displacement:</label>
+            <input id="carDisplacement" type="number" step="0.1" @bind="newCar.MappedDisplacement" placeholder="Insert value.." />
+        </div>
+        <div class="mb-2">
+            <label for="carCylinders">Car Cylinders:</label>
+            <input id="carCylinders" type="number" @bind="newCar.MappedCylinders" placeholder="Insert value.." />
+        </div>
+        <div class="mb-2">
+            <label for="carCity">Car City Fuel Efficiency:</label>
+            <input id="carCity" type="text" @bind="newCar.MappedCity" placeholder="Insert value.." />
+        </div>
+        <div class="mb-2">
+            <label for="carHighway">Car Highway Fuel Efficiency:</label>
+            <input id="carHighway" type="text" @bind="newCar.MappedHighway" placeholder="Insert value.." />
+        </div>
+        <div class="mb-2">
+            <label for="carCombined">Car Combined Fuel Efficiency:</label>
+            <input id="carCombined" type="text" @bind="newCar.MappedCombined" placeholder="Insert value.." />
+        </div>
+        <button type="submit" class="btn btn-success">Add New Car</button>
+    </EditForm>
 
 </div>
 <label class="alert alert-success @(string.IsNullOrEmpty(statusMessage) ? "d-none" : "")" role="alert">@statusMessage</label>
@@ -78,11 +89,15 @@
     private Manufacturer newManufacturer = new Manufacturer();
     private HttpClient httpClient;
     private string statusMessage;
+    private List<CarDetailsAPI.Models.ManufacturersModel> manufacturers = new();
+
 
 
     protected override async Task OnInitializedAsync()
     {
         httpClient = new HttpClient();
+        manufacturers = await ManufacturerWebServiceAPI.GetManufacturers();
+
     }
 
     private async Task AddCar()
@@ -111,7 +126,12 @@
         }
         catch (Exception e)
         {
-            statusMessage += " Failed to add new Car.";
+            statusMessage += " Failed to add new Manufacturer.";
         }
+    }
+
+    private void OnChangeEvent(ChangeEventArgs obj)
+    {
+        newCar.MappedManufacturerId = int.Parse(obj.Value.ToString());
     }
 }
