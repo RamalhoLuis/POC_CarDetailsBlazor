@@ -25,7 +25,6 @@
             <tr>
                 <th>Id</th>
                 <th>Year</th>
-                <th>Manufacturer</th>
                 <th>Name</th>
                 <th>Displacement</th>
                 <th>Cylinders</th>
@@ -38,7 +37,6 @@
             <tr>
                 <td>@newCar.Id</td>
                 <td>@newCar.MappedYear</td>
-                <td>@newCar.MappedManufacturer</td>
                 <td>@newCar.MappedName</td>
                 <td>@newCar.MappedDisplacement</td>
                 <td>@newCar.MappedCylinders</td>
@@ -198,15 +196,27 @@
     {
         try
         {
-            await CarWebServiceAPI.DeleteCar(id);
-            carDeleted = true;
-            statusMessage = "Hell yeah! Car Deleted!";
+            var response = await CarWebServiceAPI.GetCarById(id);
+            if (response.Car is not null)
+            {
+
+                await CarWebServiceAPI.DeleteCar(id);
+                carDeleted = true;
+                statusMessage = "Hell yeah! Car Deleted!";
+
+            }
+            else
+            {
+                carNotFound = true;
+                statusMessage = "Ooops!Car ID not Found!";
+            }
+
 
         }
         catch (Exception e)
         {
             carNotFound = true;
-            statusMessage = "Ooops!Car ID not Found!";
+            statusMessage = "Ooops!Critical Error!";
 
         }
 
@@ -216,9 +226,21 @@
     {
         try
         {
-            await ManufacturerWebServiceAPI.DeleteManufacturer(id);
-            manuDeleted = true;
-            statusMessage = "Hell yeah! Manufacturer Deleted!";
+            var response = await ManufacturerWebServiceAPI.GetManufacturerById(id);
+            if (response.Manufacturer is not null)
+            {
+
+                await ManufacturerWebServiceAPI.DeleteManufacturer(id);
+                manuDeleted = true;
+                statusMessage = "Hell yeah! Manufacturer Deleted!";
+
+            }
+            else
+            {
+                manuNotFound = true;
+                statusMessage = "Ooops!Critical Error!";
+            }
+
 
         }
         catch (Exception e)

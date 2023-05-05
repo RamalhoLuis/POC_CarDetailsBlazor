@@ -14,7 +14,6 @@ namespace CarDetailsAPI.Queries
 
             CreateMap<CarDetailsModels.Car, CarDetailsAPI.Models.CarsModel>()
                 .ForMember(dest => dest.MappedYear, dest => dest.MapFrom(src => src.Year))
-                .ForMember(dest => dest.MappedManufacturer, dest => dest.MapFrom(src => src.Manufacturer))
                 .ForMember(dest => dest.MappedName, dest => dest.MapFrom(src => src.Name))
                 .ForMember(dest => dest.MappedDisplacement, dest => dest.MapFrom(src => src.Displacement))
                 .ForMember(dest => dest.MappedCylinders, dest => dest.MapFrom(src => src.Cylinders))
@@ -46,7 +45,6 @@ namespace CarDetailsAPI.Queries
 
             CreateMap<CarDetailsModels.Car, CarDetailsAPI.Models.CarsModel>()
                 .ForMember(dest => dest.MappedYear, dest => dest.MapFrom(src => src.Year))
-                .ForMember(dest => dest.MappedManufacturer, dest => dest.MapFrom(src => src.Manufacturer))
                 .ForMember(dest => dest.MappedName, dest => dest.MapFrom(src => src.Name))
                 .ForMember(dest => dest.MappedDisplacement, dest => dest.MapFrom(src => src.Displacement))
                 .ForMember(dest => dest.MappedCylinders, dest => dest.MapFrom(src => src.Cylinders))

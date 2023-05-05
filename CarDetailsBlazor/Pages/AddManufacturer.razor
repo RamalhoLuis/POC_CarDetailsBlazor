@@ -1,0 +1,62 @@
+﻿@page "/addmanufacturer"
+@using CarDetailsBlazor.Interfaces;
+@using CarDetailsModels;
+@using CarDetailsBlazor;
+@using System.Net.Http.Json;
+@using System.Net.Http;
+@using Microsoft.AspNetCore.Mvc;
+@using System.Text.Json;
+@inject IMediator _mediatr
+@using Manufacturer = CarDetailsAPI.Models.ManufacturersModel;
+@using Car = CarDetailsAPI.Models.CarsModel;
+@inject ICarWebServiceAPI CarWebServiceAPI
+@inject IManufacturerWebServiceAPI ManufacturerWebServiceAPI
+
+<h3>AddManufacturer</h3>
+
+<div class="container-fluid mb-3">
+<div class="mb-2">
+    <label for="manufacturerName">Manufacturer Name:</label>
+    <input id="manufacturerName" type="text" @bind="newManufacturer.MappedName" placeholder="Insert value.." />
+</div>
+<div class="mb-2">
+    <label for="manufacturerHQ">Manufacturer Headquarters:</label>
+    <input id="manufacturerHQ" type="text" @bind="newManufacturer.MappedHeadquarters" placeholder="Insert value.." />
+</div>
+<div class="mb-2">
+    <label for="manufacturerYear">Manufacturer Year:</label>
+    <input id="manufacturerYear" type="text" @bind="newManufacturer.MappedYear" placeholder="Insert value.." />
+</div>
+<button type="submit" @onclick="AddNewManufacturer" class="btn btn-success">Add New Manufacturer</button>
+<label class="alert alert-success @(string.IsNullOrEmpty(statusMessage) ? "d-none" : "")" role="alert">@statusMessage</label>
+
+
+</div>
+
+@code {
+    private Manufacturer newManufacturer = new Manufacturer();
+    private HttpClient httpClient;
+    private string statusMessage;
+    private List<CarDetailsAPI.Models.ManufacturersModel> manufacturers = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        httpClient = new HttpClient();
+        manufacturers = await ManufacturerWebServiceAPI.GetManufacturers();
+
+    }
+    private async Task AddNewManufacturer()
+    {
+        try
+        {
+            await ManufacturerWebServiceAPI.CreateManufacturer(newManufacturer);
+
+            statusMessage += " New Manufacturer added successfully!";
+
+        }
+        catch (Exception e)
+        {
+            statusMessage += " Failed to add new Manufacturer.";
+        }
+    }
+}

@@ -20,16 +20,16 @@ namespace CarDetailsAPI.Controller
         [HttpGet("/jointinfo")]
         public ActionResult<IEnumerable<JointInfo>> GetJointInfo(int? page = 1, int? pageSize = 12)
         {   
-            var query = _dataContext.CarsDb.Include(x => x.Manufacturers).Skip(pageSize.Value*(page.Value -1)).Take(pageSize.Value).ToList();
+            var query = _dataContext.CarsDb.Include(x => x.Manufacturer).Skip(pageSize.Value*(page.Value -1)).Take(pageSize.Value).ToList();
             int totalObjects = query.Count;
             int totalPages = (int)Math.Ceiling(totalObjects / (double)pageSize);
             List<JointInfo> jointCarInfo = (List<JointInfo>)(query.Select(car => new JointInfo
             {
                 Id = car.Id,
                 Name = car.Name,
-                Headquarters = car.Manufacturers.Headquarters,
+                Headquarters = car.Manufacturer.Headquarters,
+                Manufacturer = car.Manufacturer.Name,
                 Year = car.Year,
-                Manufacturer = car.Manufacturer,
                 Displacement = car.Displacement,
                 Cylinders = car.Cylinders,
                 City = car.City,

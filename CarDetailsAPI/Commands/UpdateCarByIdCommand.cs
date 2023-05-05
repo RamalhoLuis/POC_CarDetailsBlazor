@@ -32,7 +32,6 @@ namespace CarDetailsAPI.Commands
                 else
                 {
                     car.Year = (int)request.Car.MappedYear;
-                    car.Manufacturer = request.Car.MappedManufacturer;
                     car.Name = request.Car.MappedName;
                     car.Displacement = (int)request.Car.MappedDisplacement;
                     car.Cylinders = (int)request.Car.MappedCylinders;

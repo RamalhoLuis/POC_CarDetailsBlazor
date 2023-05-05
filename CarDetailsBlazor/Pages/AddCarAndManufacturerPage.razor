@@ -17,20 +17,7 @@
 
 <div class="container-fluid mb-3">
 
-    <div class="mb-2">
-        <label for="manufacturerName">Manufacturer Name:</label>
-        <input id="manufacturerName" type="text" @bind="newManufacturer.MappedName" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="manufacturerHQ">Manufacturer Headquarters:</label>
-        <input id="manufacturerHQ" type="text" @bind="newManufacturer.MappedHeadquarters" placeholder="Insert value.." />
-    </div>
-    <div class="mb-2">
-        <label for="manufacturerYear">Manufacturer Year:</label>
-        <input id="manufacturerYear" type="text" @bind="newManufacturer.MappedYear" placeholder="Insert value.." />
-    </div>
-    <button type="submit" @onclick="AddManufacturer" class="btn btn-success">Add New Manufacturer</button>
-    <label class="alert alert-success @(string.IsNullOrEmpty(statusMessage) ? "d-none" : "")" role="alert">@statusMessage</label>
+
 
     <EditForm Model="newCar" OnValidSubmit="AddCar">
         <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -42,7 +29,7 @@
         </div>
 
         <div class="mb-2">
-            <select class="form-control w-20" @bind="selectedManufacturerId">
+            <select class="form-control w-20"  @onchange="OnChangeEvent">
                 <option value="0">Select Manufacturer</option>
                 @foreach (var manu in manufacturers)
                 {
@@ -90,8 +77,7 @@
     private HttpClient httpClient;
     private string statusMessage;
     private List<CarDetailsAPI.Models.ManufacturersModel> manufacturers = new();
-    private int selectedManufacturerId;
-    private string selectedManufacturerName;
+
 
 
 
@@ -117,30 +103,10 @@
         }
     }
 
-    private async Task AddManufacturer()
+
+
+    private void OnChangeEvent(ChangeEventArgs obj)
     {
-        try
-        {
-            await ManufacturerWebServiceAPI.CreateManufacturer(newManufacturer);
-
-            statusMessage += " New Manufacturer added successfully!";
-
-        }
-        catch (Exception e)
-        {
-            statusMessage += " Failed to add new Manufacturer.";
-        }
+        newCar.MappedManufacturerId = int.Parse(obj.Value.ToString());
     }
-
-    private void OnChangeEvent(ChangeEventArgs e)
-    {
-        int.TryParse(e.Value?.ToString(), out selectedManufacturerId);
-
-        var selectedManufacturer = manufacturers.FirstOrDefault(m => m.Id == selectedManufacturerId);
-        if (selectedManufacturer != null)
-        {
-            selectedManufacturerName = selectedManufacturer.MappedName;
-        }
-    }
-}
 }

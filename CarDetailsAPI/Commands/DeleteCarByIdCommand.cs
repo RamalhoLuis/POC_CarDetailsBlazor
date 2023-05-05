@@ -24,7 +24,7 @@ namespace CarDetailsAPI.Commands
                 var car = _data.CarsDb.FirstOrDefault(x => x.Id == request.Id);
 
                 if (car is null)
-                    return null;
+                    return Task.FromResult(0);
                 else
                 {
 

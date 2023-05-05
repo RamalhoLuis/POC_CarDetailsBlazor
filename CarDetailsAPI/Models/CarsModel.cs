@@ -7,7 +7,6 @@ namespace CarDetailsAPI.Models
     {
         public int Id { get; set; }
         public int? MappedYear { get; set; }
-        public string? MappedManufacturer { get; set; } = string.Empty;
         public string? MappedName { get; set; }
         public double? MappedDisplacement { get; set; }
         public int? MappedCylinders { get; set; }
