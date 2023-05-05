@@ -18,17 +18,17 @@ namespace CarDetailsAPI.Commands
                 _data = data;
                 _mapper = mapper;
             }
-            public Task Handle(InsertCarCommand request, CancellationToken cancellationToken)
+            public async Task Handle(InsertCarCommand request, CancellationToken cancellationToken)
             {
                 if (request.Car != null)
                 {
                     var mapped = _mapper.Map<CarDetailsModels.Car>(request.Car);
                     _data.CarsDb.Add(mapped);
-                    _data.SaveChangesAsync(cancellationToken);
+                    await _data.SaveChangesAsync(cancellationToken);
 
                 }
 
-                return Task.FromResult(request.Car.Id);
+                return;
             }
         }
     }

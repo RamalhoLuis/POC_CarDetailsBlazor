@@ -42,7 +42,7 @@
         </div>
 
         <div class="mb-2">
-            <select class="form-control w-20" @onchange="OnChangeEvent">
+            <select class="form-control w-20" @bind="selectedManufacturerId">
                 <option value="0">Select Manufacturer</option>
                 @foreach (var manu in manufacturers)
                 {
@@ -90,6 +90,8 @@
     private HttpClient httpClient;
     private string statusMessage;
     private List<CarDetailsAPI.Models.ManufacturersModel> manufacturers = new();
+    private int selectedManufacturerId;
+    private string selectedManufacturerName;
 
 
 
@@ -130,8 +132,15 @@
         }
     }
 
-    private void OnChangeEvent(ChangeEventArgs obj)
+    private void OnChangeEvent(ChangeEventArgs e)
     {
-        newCar.MappedManufacturerId = int.Parse(obj.Value.ToString());
+        int.TryParse(e.Value?.ToString(), out selectedManufacturerId);
+
+        var selectedManufacturer = manufacturers.FirstOrDefault(m => m.Id == selectedManufacturerId);
+        if (selectedManufacturer != null)
+        {
+            selectedManufacturerName = selectedManufacturer.MappedName;
+        }
     }
+}
 }

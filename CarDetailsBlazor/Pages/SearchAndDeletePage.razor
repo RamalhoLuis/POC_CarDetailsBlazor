@@ -114,6 +114,14 @@
 {
     <label class="alert alert-danger" role="alert">@statusMessage</label>
 }
+@if (carNotFound == true)
+{
+    <label class="alert alert-danger" role="alert">@statusMessage</label>
+}
+@if (manuNotFound == true)
+{
+    <label class="alert alert-danger" role="alert">@statusMessage</label>
+}
 
 @code {
     private CarDetailsAPI.Models.CarsModel newCar = new();
@@ -124,6 +132,8 @@
     private bool manuSearched = false;
     private bool carDeleted = false;
     private bool manuDeleted = false;
+    private bool carNotFound = false;
+    private bool manuNotFound = false;
     private int Id;
 
 
@@ -146,6 +156,7 @@
             }
             else
             {
+                carNotFound = true;
                 statusMessage = "Ooops!Car ID not Found!";
             }
 
@@ -172,6 +183,7 @@
             }
             else
             {
+                manuNotFound = true;
                 statusMessage = "Ooops!Manufacturer ID not Found!";
             }
         }
@@ -193,6 +205,8 @@
         }
         catch (Exception e)
         {
+            carNotFound = true;
+            statusMessage = "Ooops!Car ID not Found!";
 
         }
 
@@ -209,6 +223,8 @@
         }
         catch (Exception e)
         {
+            manuNotFound = true;
+            statusMessage = "Ooops!Manufacturer ID not Found!";
 
         }
     }
