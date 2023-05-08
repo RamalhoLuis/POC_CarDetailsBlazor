@@ -30,7 +30,7 @@ namespace CarDetailsAPI
 
             // builder.Services.AddDbContext<IDataContext,AppDbContext>(option => option.UseSqlServer("Data Source=DESKTOP-7KHJ0MN\\SQLEXPRESS;Initial Catalog=CarAPPDatabase; Trusted_Connection=True; TrustServerCertificate=True;", b => b.MigrationsAssembly("CarDetailsAPI"))); //I set this on appsettings.json
             builder.Services
-                .AddDbContext<IDataContext, AppDbContext>(ServiceLifetime.Singleton); //I set this on appsettings.json
+                .AddDbContext<IDataContext, AppDbContext>(ServiceLifetime.Scoped); //I set this on appsettings.json
             builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(GetCarsListQuery)));
